@@ -1,4 +1,4 @@
-package com.internship.changeit;
+package com.internship.changeit.model;
 
 public enum Role {
     USER,
