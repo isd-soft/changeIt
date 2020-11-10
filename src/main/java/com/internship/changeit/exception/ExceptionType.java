@@ -10,6 +10,6 @@ public enum ExceptionType {
     USER_NOT_FOUND("User not found", HttpStatus.NOT_FOUND),
     PROBLEM_NOT_FOUND("Problem not found", HttpStatus.NOT_FOUND);
 
-    ExceptionType(String s, HttpStatus notFound) {
+    ExceptionType(String message, HttpStatus httpStatus) {
     }
 }

@@ -30,7 +30,6 @@ public class ProblemServiceImpl implements ProblemService {
     public Problem getProblemById(Long id) {
         return problemRepository.findById(id).
                 orElseThrow(() -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
-
     }
 
     @Override
