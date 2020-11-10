@@ -1,5 +1,7 @@
 package com.internship.changeit.service.impl;
 
+import com.internship.changeit.exception.ApplicationException;
+import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.User;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.UserService;
@@ -23,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-          return null;
+          return userRepository.findById(id).orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
     }
 
     @Override
