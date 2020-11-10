@@ -1,22 +1,25 @@
 package com.internship.changeit.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class Location extends BasicEntity {
+@Table(name = "location")
+public class Location {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long location_id;
     private String locationName;
 
-    @JoinColumn(name = "district_id")
     @ManyToOne
+    @JoinColumn(name = "district_id")
     private District district;
+
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+    private List<Problem> problems = new ArrayList<>();
 }

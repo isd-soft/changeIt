@@ -1,27 +1,32 @@
 package com.internship.changeit.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Table(name = "user")
-public class User extends BasicEntity {
+@Table(name = "user_entity")
+public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long user_id;
     private String firstName;
     private String lastName;
     private String email;
     private Boolean confirmedAccount;
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Problem> problems = new ArrayList<>();
 
 }

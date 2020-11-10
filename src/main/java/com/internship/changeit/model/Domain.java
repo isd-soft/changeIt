@@ -1,16 +1,32 @@
 package com.internship.changeit.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class Domain extends BasicEntity {
+@Table(name = "domain")
+public class Domain {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String domain_id;
     private String domainName;
+
+    @ManyToMany(mappedBy = "domains")
+    private List<Problem> problems = new ArrayList<>();
+
+
+    public void addProblem(Problem problem) {
+        this.problems.add(problem);
+        problem.getDomains().add(this);
+    }
+
+    public void removeProblem(Problem problem){
+        this.problems.remove(problem);
+        problem.getDomains().remove(this);
+    }
 }
