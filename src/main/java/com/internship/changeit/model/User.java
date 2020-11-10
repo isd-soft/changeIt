@@ -17,7 +17,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private Boolean confirmedAccount;
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
     private String password;
 
     @Enumerated(EnumType.STRING)
