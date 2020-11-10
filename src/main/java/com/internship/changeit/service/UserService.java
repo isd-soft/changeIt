@@ -10,9 +10,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    User getUsersByEmail(String email);
-
     void deleteUser(Long id);
 
-    boolean isEmailUnique(String email);
+
 }

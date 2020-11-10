@@ -25,21 +25,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-          return userRepository.findById(id).orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
-    }
-
-    @Override
-    public User getUsersByEmail(String email) {
-        return null;
+          return userRepository.findById(id).
+                  orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
     }
 
     @Override
     public void deleteUser(Long id) {
-
-    }
-
-    @Override
-    public boolean isEmailUnique(String email) {
-        return false;
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
+        userRepository.delete(user);
     }
 }
