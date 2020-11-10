@@ -1,4 +1,4 @@
-package com.internship.changeit.Repository;
+package com.internship.changeit.repository;
 
 import com.internship.changeit.model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
