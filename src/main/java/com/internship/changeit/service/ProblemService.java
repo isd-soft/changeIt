@@ -12,7 +12,7 @@ public interface ProblemService {
 
     Problem getProblemById(Long id);
 
-    void save(Problem p);
+    void saveOrCreate(Problem p);
 
     void deleteProblem(Long id);
 }
