@@ -5,7 +5,6 @@ import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
 import com.internship.changeit.repository.CommentRepository;
-import com.internship.changeit.model.Comment;
 
 import java.util.List;
 
