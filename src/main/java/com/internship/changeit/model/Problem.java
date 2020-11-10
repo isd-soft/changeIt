@@ -1,47 +1,55 @@
 package com.internship.changeit.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+@Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Table(name = "problem")
-public class Problem extends BasicEntity{
+public class Problem {
 
-    @Column(name = "title")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long problem_id;
+
     private String title;
-
-    @Column(name = "description")
     private String description;
-
-    @Column(name = "votes")
     private Integer votes;
 
-    @Column(name = "created_at")
-    private Timestamp created_at;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created_at;
 
-    @Column(name = "updated_at")
-    private Timestamp updated_at;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated_at;
 
-    @Column(name = "status_id")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
-    @JoinColumn(name = "user_id")
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
     @JoinColumn(name = "location_id")
-    @OneToOne
     private Location location;
 
-    @JoinColumn(name = "location_id")
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "district_id")
     private District district;
+
+    @OneToMany(mappedBy = "problem")
+    private List<Comment> comments = new ArrayList<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "domain_problem",
+        joinColumns = @JoinColumn(name = "problem_id"),
+        inverseJoinColumns = @JoinColumn(name = "domain_id"))
+    private List<Domain> domains = new ArrayList<>();
 
 }

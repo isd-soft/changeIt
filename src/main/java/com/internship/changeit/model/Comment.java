@@ -1,25 +1,31 @@
 package com.internship.changeit.model;
 
-import lombok.*;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.util.Date;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Data
 @Entity
-public class Comment extends BasicEntity {
+@Table(name = "comment")
+public class Comment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long comment_id;
 
     private Integer votes;
     private String content;
-    private Timestamp created_at;
 
-    @JoinColumn(name = "user_id")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date created_at;
+
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "problem_id")
+    private Problem problem;
+
 }
