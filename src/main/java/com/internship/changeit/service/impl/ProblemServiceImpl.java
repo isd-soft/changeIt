@@ -34,8 +34,32 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public void saveOrCreate(Problem p) {
-        problemRepository.save(p);
+    public Problem addProblem(Problem p) {
+        return problemRepository.save(p);
+    }
+
+    @Override
+    public Problem updateProblem(Problem newProblem, Long id) {
+        problemRepository.findById(id)
+                .map(problem -> {
+                    problem.setTitle(newProblem.getTitle());
+                    problem.setDescription(newProblem.getDescription());
+                    problem.setVotes(newProblem.getVotes());
+                    problem.setCreated_at(newProblem.getCreated_at());
+                    problem.setUpdated_at(newProblem.getUpdated_at());
+                    problem.setStatus(newProblem.getStatus());
+                    problem.setUser(newProblem.getUser());
+                    problem.setLocation(newProblem.getLocation());
+                    problem.setDistrict(newProblem.getDistrict());
+                    problem.setComments(newProblem.getComments());
+                    problem.setDomains(newProblem.getDomains());
+                    return problemRepository.save(problem);
+                })
+                .orElseGet(() -> {
+                    newProblem.setProblem_id(id);
+                    return problemRepository.save(newProblem);
+                });
+        return newProblem;
     }
 
     @Override
