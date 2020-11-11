@@ -1,7 +1,6 @@
 package com.internship.changeit.exception;
 
 public class ApplicationException extends RuntimeException{
-
     private final ExceptionType exceptionType;
 
     public ApplicationException(ExceptionType exceptionType) {

@@ -3,7 +3,6 @@ package com.internship.changeit.service;
 import com.internship.changeit.model.Problem;
 import java.util.List;
 
-
 public interface ProblemService {
 
     List<Problem> getAllProblems();
