@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 public interface DomainMapper {
     DomainMapper INSTANCE = Mappers.getMapper(DomainMapper.class);
 
-//    @Mapping(source = "domainName", target = "name")
     DomainDto toDto(Domain domain);
 
     Domain fromDto(DomainDto domainDto);
