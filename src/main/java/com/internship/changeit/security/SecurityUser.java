@@ -1,6 +1,5 @@
 package com.internship.changeit.security;
 
-import com.internship.changeit.model.Status;
 import com.internship.changeit.model.User;
 import com.internship.changeit.model.UserStatus;
 import lombok.Data;
