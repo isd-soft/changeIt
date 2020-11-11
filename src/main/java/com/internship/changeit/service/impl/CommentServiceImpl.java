@@ -1,8 +1,8 @@
 package com.internship.changeit.service.impl;
 
+import com.internship.changeit.model.Comment;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
-import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
 import com.internship.changeit.repository.CommentRepository;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private Object Comment;
 
     public CommentServiceImpl(CommentRepository commentRepository){
         this.commentRepository = commentRepository;
@@ -25,14 +24,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment getCommentById(long id) {
-        return commentRepository.findById(id).
-                orElseThrow(() -> new ApplicationException(ExceptionType.COMMENT_NOT_FOUND));
-    }
-
-    @Override
-    public void saveComment(Comment comment) {
-        commentRepository.save(comment);
+    public Comment saveComment(Comment comment) {
+        return commentRepository.save(comment);
     }
 
     @Override
