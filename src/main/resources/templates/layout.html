@@ -1,6 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Layout</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" />
+</head>
+
+<body>
 <div class="container">
-    <h1>Congrats!!! You did it!</h1>
-    <form action="/auth/logout" method="POST">
-        <button type="submit">Logout</button>
-    </form>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" th:href="@{/}"> Home </a>
+        </div>
+        <u1 class="nav pull-right">
+            <li><a th:href="@{/doLogout}" class="menu-right">Logout</a></li>
+        </u1>
+    </div>
 </div>
+</body>
+</html>

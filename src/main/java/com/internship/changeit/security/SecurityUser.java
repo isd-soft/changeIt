@@ -1,6 +1,8 @@
 package com.internship.changeit.security;
 
+import com.internship.changeit.model.Status;
 import com.internship.changeit.model.User;
+import com.internship.changeit.model.UserStatus;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -57,6 +59,17 @@ public class SecurityUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive;
+    }
+
+    public static UserDetails fromUser(User user) {
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(),
+                user.getUserStatus().equals(UserStatus.ACTIVE),
+                user.getUserStatus().equals(UserStatus.ACTIVE),
+                user.getUserStatus().equals(UserStatus.ACTIVE),
+                user.getUserStatus().equals(UserStatus.ACTIVE),
+                user.getRole().getAuthorities()
+        );
     }
 
 }

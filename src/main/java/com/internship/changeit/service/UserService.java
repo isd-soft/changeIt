@@ -13,4 +13,11 @@ public interface UserService {
     void deleteUser(Long id);
 
     User getUserByEmail(String email);
+
+    boolean isEmailUnique(String email);
+
+    void updateUser(User user);
+
+    void registerUser(User user);
+
 }
