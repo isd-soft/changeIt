@@ -1,16 +1,17 @@
 package com.internship.changeit.service.impl;
 
+import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
+import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Problem;
-import com.internship.changeit.model.User;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProblemServiceImpl implements ProblemService {
@@ -34,38 +35,36 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public Problem addProblem(Problem p) {
-        return problemRepository.save(p);
+    public Problem addProblem(Problem problem) {
+        problemRepository.save(problem);
+        return problem;
     }
 
     @Override
     public Problem updateProblem(Problem newProblem, Long id) {
-        problemRepository.findById(id)
-                .map(problem -> {
-                    problem.setTitle(newProblem.getTitle());
-                    problem.setDescription(newProblem.getDescription());
-                    problem.setVotes(newProblem.getVotes());
-                    problem.setCreated_at(newProblem.getCreated_at());
-                    problem.setUpdated_at(newProblem.getUpdated_at());
-                    problem.setStatus(newProblem.getStatus());
-                    problem.setUser(newProblem.getUser());
-                    problem.setLocation(newProblem.getLocation());
-                    problem.setDistrict(newProblem.getDistrict());
-                    problem.setComments(newProblem.getComments());
-                    problem.setDomains(newProblem.getDomains());
-                    return problemRepository.save(problem);
-                })
-                .orElseGet(() -> {
-                    newProblem.setProblem_id(id);
-                    return problemRepository.save(newProblem);
-                });
-        return newProblem;
+
+        Optional<Problem> optionalProblem = problemRepository.findById(id);
+
+        if(optionalProblem.isPresent()){
+            Problem updatable = optionalProblem.get();
+            updatable.setTitle(newProblem.getTitle());
+            updatable.setDescription(newProblem.getDescription());
+            updatable.setVotes(newProblem.getVotes());
+            updatable.setCreated_at(newProblem.getCreated_at());
+            updatable.setUpdated_at(newProblem.getUpdated_at());
+            updatable.setStatus((newProblem.getStatus()));
+            problemRepository.save(updatable);
+            return updatable;
+        } else throw new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND);
     }
 
     @Override
     public void deleteProblem(Long id) {
-        Problem problem = problemRepository.findById(id).orElseThrow(
-                () -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
-        problemRepository.delete(problem);
+        Optional<Problem> problem = problemRepository.findById(id);
+
+        if(problem.isPresent()){
+            problemRepository.deleteById(id);
+        } else throw new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND);
+
     }
 }
