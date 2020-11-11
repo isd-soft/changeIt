@@ -25,4 +25,5 @@ public class DomainServiceImpl implements DomainService {
         domainRepository.save(domain);
         return domain;
     }
+
 }

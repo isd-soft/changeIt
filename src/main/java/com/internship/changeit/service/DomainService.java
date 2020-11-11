@@ -9,4 +9,5 @@ public interface DomainService {
     List<Domain> getAllDomains();
     public Domain saveDomain(Domain domain);
 
+
 }
