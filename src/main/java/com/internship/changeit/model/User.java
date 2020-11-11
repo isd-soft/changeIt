@@ -3,6 +3,10 @@ package com.internship.changeit.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +18,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long user_id;
+
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String lastName;
+
+    @Email(message = "Please provide a valid email address")
+    @Pattern(regexp = ".+@.+\\..+", message = "Does not match an email pattern")
+    @NotNull(message = "Email cannot be null")
     private String email;
+
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
+
+    @NotNull(message = "Password cannot be null")
+    @Size(min = 8, message = "A password must be at least 8 characters long")
     private String password;
 
     @Enumerated(EnumType.STRING)

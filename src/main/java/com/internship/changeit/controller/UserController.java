@@ -23,9 +23,4 @@ public class UserController {
             return user;
         } else throw new ApplicationException(ExceptionType.USER_ALREADY_EXIST);
     }
-
-    @GetMapping("/login")
-    public String loginUser() {
-        return "Succes Login";
-    }
 }
