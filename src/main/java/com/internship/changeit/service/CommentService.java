@@ -1,16 +1,15 @@
 package com.internship.changeit.service;
 
+import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.model.Comment;
 
 import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getAllComments();
+//    List<Comment> getAllComments();
 
-    Comment getCommentById(long id);
+    Comment saveComment(Comment comment);
 
-    void saveComment(Comment comment);
-
-    void deleteComment(long id);
+//    void deleteComment(long id);
 }
