@@ -16,8 +16,5 @@ public interface UserService {
 
     boolean isEmailUnique(String email);
 
-    void updateUser(User user);
-
-    void registerUser(User user);
-
+    void saveOrUpdateUser(User user);
 }

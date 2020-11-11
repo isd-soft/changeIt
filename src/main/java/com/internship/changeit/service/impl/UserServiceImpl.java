@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).
-                orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     @Override
@@ -53,19 +52,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void saveOrUpdateUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setUserStatus(UserStatus.ACTIVE);
+        user.setRole(Role.USER);
         userRepository.save(user);
-    }
-
-    @Override
-    public void registerUser(User user) {
-        if(isEmailUnique(user.getEmail())) {
-            user.setPassword(encoder.encode(user.getPassword()));
-            user.setUserStatus(UserStatus.ACTIVE);
-            user.setRole(Role.USER);
-            userRepository.save(user);
-        }
     }
 }
