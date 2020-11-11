@@ -1,6 +1,5 @@
 package com.internship.changeit.service;
 
-import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.model.Comment;
 
 import java.util.List;

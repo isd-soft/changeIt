@@ -1,18 +1,13 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
-import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.mapper.CommentMapper;
-import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,11 +21,10 @@ public class CommentController {
     }
 
     @GetMapping
-    List<CommentDto> all() {
-        return commentService.getAllComments()
-                .stream()
-                .map( CommentMapper.INSTANCE::toDto )
-                .collect( Collectors.toList() );
+    public List<CommentDto> getAllComments(){
+        return commentService.getAllComments().stream()
+                .map(CommentMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping

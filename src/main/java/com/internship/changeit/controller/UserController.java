@@ -1,28 +1,27 @@
 package com.internship.changeit.controller;
 
+
+import com.internship.changeit.exception.ApplicationException;
+import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.User;
 import com.internship.changeit.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@AllArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping
-    public List<User> getUsers(){
-        return userService.getAllUsers();
-    }
-
-    @PostMapping
-    public User saveUser(@RequestBody User user){
-        return userService.saveUser(user);
+    @PostMapping("/register")
+    public User registerUser(@Valid @RequestBody final User user) {
+        if(userService.isEmailUnique(user.getEmail())) {
+            userService.saveOrUpdateUser(user);
+            return user;
+        } else throw new ApplicationException(ExceptionType.USER_ALREADY_EXIST);
     }
 }
