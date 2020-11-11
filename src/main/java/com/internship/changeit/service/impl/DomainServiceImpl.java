@@ -1,7 +1,5 @@
 package com.internship.changeit.service.impl;
 
-import com.internship.changeit.dto.DomainDto;
-import com.internship.changeit.mapper.DomainMapper;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.service.DomainService;
@@ -23,15 +21,9 @@ public class DomainServiceImpl implements DomainService {
     }
 
     @Override
-    public Domain saveDomain(DomainDto domainDto){
-        Domain domain = DomainMapper.INSTANCE.fromDto(domainDto);
-        domainRepository.save(domain);
-        return domain;
-    }
-
-    @Override
     public Domain saveDomain(Domain domain){
         domainRepository.save(domain);
         return domain;
     }
+
 }

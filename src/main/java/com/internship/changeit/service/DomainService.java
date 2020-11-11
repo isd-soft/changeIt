@@ -10,6 +10,5 @@ import java.util.List;
 public interface DomainService {
 
     List<Domain> getAllDomains();
-    Domain saveDomain(DomainDto domainDto);
     Domain saveDomain(Domain domain);
 }
