@@ -1,19 +1,14 @@
 package com.internship.changeit.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-@Data
 @Entity
 @Table(name = "problem")
 public class Problem {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +25,7 @@ public class Problem {
     private Date updated_at;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.ACTIVE;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -148,5 +143,23 @@ public class Problem {
 
     public void setDomains(List<Domain> domains) {
         this.domains = domains;
+    }
+
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "problem_id=" + problem_id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", votes=" + votes +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                ", status=" + status +
+                ", user=" + user +
+                ", location=" + location +
+                ", district=" + district +
+                ", comments=" + comments +
+                ", domains=" + domains +
+                '}';
     }
 }
