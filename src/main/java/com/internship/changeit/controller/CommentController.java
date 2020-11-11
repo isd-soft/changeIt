@@ -1,8 +1,11 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
+import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.mapper.CommentMapper;
+import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Comment;
+import com.internship.changeit.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.internship.changeit.service.impl.CommentServiceImpl;
@@ -10,38 +13,34 @@ import com.internship.changeit.service.impl.CommentServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/problem/{id}")
+@RequestMapping("/api/v1/comment")
 public class CommentController {
 
-    @Autowired
-    private CommentMapper commentMapper;
-
-    private final CommentServiceImpl commentService;
+    private final CommentService commentService;
 
     public CommentController(CommentServiceImpl commentService){
         this.commentService = commentService;
     }
 
     @GetMapping
-    public List<CommentDto> getAll(){
-        ListIterator<Comment> comments = commentService.getAllComments().listIterator();
-        List<CommentDto> commentDtos = new ArrayList<>();
-        while(comments.hasNext()){
-            commentDtos.add(commentMapper.toDto(comments.next()));
-        }
-        return commentDtos;
+    List<CommentDto> all() {
+        return commentService.getAllComments()
+                .stream()
+                .map( CommentMapper.INSTANCE::toDto )
+                .collect( Collectors.toList() );
     }
 
     @PostMapping
-    public CommentDto createComment(@RequestBody CommentDto newCommentDto){
-        Comment comment = commentMapper.fromDto(newCommentDto);
-        Comment commentCreated = commentService.saveComment(comment);
-        return commentMapper.toDto(commentCreated);
+    public Comment createComment(@RequestBody CommentDto commentDto){
+        Comment comment = CommentMapper.INSTANCE.fromDto(commentDto);
+        commentService.saveComment(comment);
+        return commentService.saveComment(comment);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     void deleteComment(@PathVariable Long id){
         commentService.deleteComment(id);
     }
