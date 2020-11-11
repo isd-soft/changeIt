@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/problem")
+@RequestMapping("/api/v1/problem")
 public class ProblemController {
 
     private final ProblemServiceImpl problemService;

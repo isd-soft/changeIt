@@ -8,7 +8,6 @@ import java.util.List;
 public interface DomainService {
 
     List<Domain> getAllDomains();
-    public Domain saveDomain(Domain domain);
-
+    Domain saveDomain(Domain domain);
 
 }

@@ -1,21 +1,17 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
-import com.internship.changeit.dto.DomainDto;
 import com.internship.changeit.mapper.CommentMapper;
-import com.internship.changeit.mapper.DomainMapper;
 import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
-import com.internship.changeit.service.impl.CommentServiceImpl;
 import org.springframework.web.bind.annotation.*;
+import com.internship.changeit.service.impl.CommentServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/comment")
+@RequestMapping("/api/v1/comment")
 public class CommentController {
 
     private final CommentService commentService;
@@ -36,5 +32,10 @@ public class CommentController {
         Comment comment = CommentMapper.INSTANCE.fromDto(commentDto);
         commentService.saveComment(comment);
         return commentService.saveComment(comment);
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteComment(@PathVariable Long id){
+        commentService.deleteComment(id);
     }
 }

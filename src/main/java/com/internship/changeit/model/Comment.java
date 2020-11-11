@@ -1,7 +1,6 @@
 package com.internship.changeit.model;
 
 import lombok.Data;
-import org.mapstruct.Builder;
 
 import javax.persistence.*;
 import java.util.Date;
