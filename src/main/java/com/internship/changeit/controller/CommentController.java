@@ -1,23 +1,22 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
+import com.internship.changeit.dto.DomainDto;
 import com.internship.changeit.mapper.CommentMapper;
+import com.internship.changeit.mapper.DomainMapper;
 import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import com.internship.changeit.service.impl.CommentServiceImpl;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
-
-//    @Autowired
-//    private CommentMapper commentMapper;
 
     private final CommentService commentService;
 
@@ -25,15 +24,12 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-//    @GetMapping
-//    public List<CommentDto> getAll(){
-//        ListIterator<Comment> comments = commentService.getAllComments().listIterator();
-//        List<CommentDto> commentDtos = new ArrayList<>();
-//        while(comments.hasNext()){
-//            commentDtos.add(commentMapper.toDto(comments.next()));
-//        }
-//        return commentDtos;
-//    }
+    @GetMapping
+    public List<CommentDto> getAllComments(){
+        return commentService.getAllComments().stream()
+                .map(CommentMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
 
     @PostMapping
     public Comment createComment(@RequestBody CommentDto commentDto){
@@ -41,9 +37,4 @@ public class CommentController {
         commentService.saveComment(comment);
         return commentService.saveComment(comment);
     }
-//
-//    @DeleteMapping("/{id}")
-//    void deleteComment(@PathVariable Long id){
-//        commentService.deleteComment(id);
-//    }
 }
