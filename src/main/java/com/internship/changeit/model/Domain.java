@@ -13,7 +13,7 @@ public class Domain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String domain_id;
+    private Long domain_id;
     private String domainName;
 
     @ManyToMany(mappedBy = "domains")
