@@ -1,6 +1,5 @@
 package com.internship.changeit.dto;
 
-import com.internship.changeit.model.Problem;
 import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,5 +8,5 @@ import java.util.List;
 public class DomainDto {
     private Long domain_id;
     private String domainName;
-    private List<Problem> problems = new ArrayList<>();
+    private List<ProblemDto> problems = new ArrayList<>();
 }
