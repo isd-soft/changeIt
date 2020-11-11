@@ -1,14 +1,15 @@
 package com.internship.changeit.service.impl;
 
-import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.model.Comment;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.service.CommentService;
 import com.internship.changeit.repository.CommentRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
