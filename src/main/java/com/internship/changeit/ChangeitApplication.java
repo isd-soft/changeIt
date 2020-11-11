@@ -10,21 +10,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChangeitApplication implements CommandLineRunner {
+public class ChangeitApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ChangeitApplication.class, args);
     }
 
-    @Autowired
-    DomainService domainService;
-
-    @Override
-    public void run(String... args) throws Exception {
-        Domain domain = new Domain();
-        domain.setDomainName("New Domain set using DTO Number two");
-        DomainDto domainDto = DomainMapper.INSTANCE.toDto(domain);
-
-        domainService.saveDomain(domainDto);
-    }
 }
