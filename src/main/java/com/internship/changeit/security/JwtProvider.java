@@ -1,11 +1,12 @@
 package com.internship.changeit.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -15,6 +16,11 @@ public class JwtProvider {
     private String secretKey;
     @Value("${jwt.expiration}")
     private Long validityInMilliseconds;
+
+    @PostConstruct
+    protected void init(){
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
 
     public String createToken(String username, String role) {
         Claims claims = Jwts.claims().setSubject(username);
@@ -29,5 +35,14 @@ public class JwtProvider {
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    public boolean validateToken(String token){
+        try{
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return !claimsJws.getBody().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            throw  new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.FORBIDDEN);
+        }
     }
 }
