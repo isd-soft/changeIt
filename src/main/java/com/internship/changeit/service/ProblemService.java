@@ -1,7 +1,6 @@
 package com.internship.changeit.service;
 
 import com.internship.changeit.model.Problem;
-
 import java.util.List;
 
 public interface ProblemService {
@@ -10,7 +9,9 @@ public interface ProblemService {
 
     Problem getProblemById(Long id);
 
-    void saveOrCreate(Problem p);
+    Problem addProblem(Problem problem);
+
+    Problem updateProblem(Problem p, Long id);
 
     void deleteProblem(Long id);
 }
