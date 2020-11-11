@@ -11,6 +11,6 @@ public enum ExceptionType {
     PROBLEM_NOT_FOUND("Problem not found", HttpStatus.NOT_FOUND),
     COMMENT_NOT_FOUND("Comment not found", HttpStatus.NOT_FOUND);
 
-    ExceptionType(String s, HttpStatus notFound) {
-    }
+    private final String message;
+    private final HttpStatus httpStatus;
 }
