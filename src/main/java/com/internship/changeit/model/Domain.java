@@ -12,7 +12,7 @@ import java.util.List;
 public class Domain {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long domain_id;
     private String domainName;
 

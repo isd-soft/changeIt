@@ -20,7 +20,6 @@ public class ProblemController {
     }
 
     @GetMapping
-
     List<ProblemDto> all() {
         return problemService.getAllProblems()
                 .stream()

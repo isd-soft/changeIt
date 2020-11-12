@@ -7,21 +7,18 @@ import com.internship.changeit.model.User;
 import com.internship.changeit.model.UserStatus;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
-
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder encoder) {
-        this.userRepository = userRepository;
-        this.encoder = encoder;
-    }
 
     @Override
     public List<User> getAllUsers() {

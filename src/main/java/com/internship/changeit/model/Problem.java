@@ -13,7 +13,7 @@ public class Problem {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long problem_id;
 
     private String title;

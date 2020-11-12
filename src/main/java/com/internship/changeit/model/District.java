@@ -13,7 +13,7 @@ import java.util.Set;
 public class District  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long district_id;
     private String districtName;
 

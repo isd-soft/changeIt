@@ -32,6 +32,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@Valid @RequestBody final AuthenticationRequestDto request){
+        //TODO extract business logic in a separate method
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             User user = userService.getUserByEmail(request.getEmail());

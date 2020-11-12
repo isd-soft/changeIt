@@ -19,6 +19,10 @@
         <tymeleaf.version>2.3.4.RELEASE</tymeleaf.version>
         <jjwt.version>0.9.1</jjwt.version>
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+        <flyway-maven-plugin.version>6.0.3</flyway-maven-plugin.version>
+        <flyway-maven-plugin.user>postgres</flyway-maven-plugin.user>
+        <flyway-maven-plugin.password>password</flyway-maven-plugin.password>
+        <flyway-maven-plugin.url>jdbc:postgresql://localhost:5432/changeit_db</flyway-maven-plugin.url>
     </properties>
 
     <dependencies>
@@ -87,6 +91,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway-maven-plugin.version}</version>
+                <configuration>
+                    <url>${flyway-maven-plugin.url}</url>
+                    <user>${flyway-maven-plugin.user}</user>
+                    <password>${flyway-maven-plugin.password}</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>
