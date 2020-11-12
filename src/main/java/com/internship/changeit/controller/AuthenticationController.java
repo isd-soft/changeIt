@@ -13,10 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,10 +39,15 @@ public class AuthenticationController {
             if(user == null)
                     throw  new ApplicationException(ExceptionType.USER_NOT_FOUND);
 
+            String firstName = userService.getUserByEmail(request.getEmail()).getFirstName();
+            String lastName = userService.getUserByEmail(request.getEmail()).getFirstName();
+
             String token = jwtProvider.createToken(request.getEmail(), user.getRole().name());
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
+            response.put("firsName", firstName);
+            response.put("lastName", lastName);
 
             return ResponseEntity.ok(response);
         }catch (AuthenticationException e) {
@@ -58,4 +60,5 @@ public class AuthenticationController {
         SecurityContextLogoutHandler securityContextHolder = new SecurityContextLogoutHandler();
         securityContextHolder.logout(request, response, null);
     }
+
 }

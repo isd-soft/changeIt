@@ -1,8 +1,10 @@
 package com.internship.changeit.controller;
 
 
+import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
+import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.User;
 import com.internship.changeit.service.UserService;
 import lombok.AllArgsConstructor;
@@ -21,7 +23,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public User registerUser(@Valid @RequestBody final User user) {
+    public User registerUser(@Valid @RequestBody final UserDto userDto) {
+        final User user = UserMapper.INSTANCE.fromDto(userDto);
         if(userService.isEmailUnique(user.getEmail())) {
             userService.saveOrUpdateUser(user);
             return user;
