@@ -40,13 +40,13 @@ public class AuthenticationController {
                     throw  new ApplicationException(ExceptionType.USER_NOT_FOUND);
 
             String firstName = userService.getUserByEmail(request.getEmail()).getFirstName();
-            String lastName = userService.getUserByEmail(request.getEmail()).getFirstName();
+            String lastName = userService.getUserByEmail(request.getEmail()).getLastName();
 
             String token = jwtProvider.createToken(request.getEmail(), user.getRole().name());
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
-            response.put("firsName", firstName);
+            response.put("firstName", firstName);
             response.put("lastName", lastName);
 
             return ResponseEntity.ok(response);
