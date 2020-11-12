@@ -1,18 +1,14 @@
 package com.internship.changeit.service.impl;
 
-import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
-import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service

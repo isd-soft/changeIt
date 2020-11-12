@@ -10,6 +10,5 @@ public enum Permission {
     PROBLEMS_READ("problems:read"),
     PROBLEMS_DELETE("problems:delete");
 
-
     private final String permission;
 }

@@ -4,8 +4,8 @@ import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
-import org.springframework.web.bind.annotation.*;
 import com.internship.changeit.service.impl.CommentServiceImpl;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,5 +1,8 @@
 package com.internship.changeit.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ApplicationException extends RuntimeException{
     private final ExceptionType exceptionType;
 
