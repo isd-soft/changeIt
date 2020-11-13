@@ -9,5 +9,4 @@ import java.util.Set;
 public class DistrictDto {
     private Long district_id;
     private String districtName;
-    private Set<Location> locations;
 }

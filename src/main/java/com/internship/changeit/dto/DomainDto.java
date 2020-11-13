@@ -9,5 +9,4 @@ import java.util.List;
 public class DomainDto {
     private Long domain_id;
     private String domainName;
-    private List<ProblemDto> problems = new ArrayList<>();
 }

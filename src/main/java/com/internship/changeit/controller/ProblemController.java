@@ -37,7 +37,7 @@ public class ProblemController {
 
     @GetMapping("/{id}")
     ProblemDto one(@PathVariable Long id) {
-        return ProblemMapper.INSTANCE.toDto( problemService.getProblemById(id) );
+        return ProblemMapper.INSTANCE.toDto(problemService.getProblemById(id));
     }
 
     @PutMapping("/{id}")
