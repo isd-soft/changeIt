@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveOrUpdateUser(User user) {
+    public void saveOrUpdateUser(final User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setUserStatus(UserStatus.ACTIVE);
         user.setRole(Role.USER);
