@@ -41,7 +41,7 @@ public class Problem {
     @JoinColumn(name = "district_id")
     private District district;
 
-    @OneToMany(mappedBy = "problem")
+    @OneToMany(mappedBy = "problem", fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
