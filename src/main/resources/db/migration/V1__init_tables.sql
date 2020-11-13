@@ -41,7 +41,7 @@
         EMAIL            VARCHAR(50) NOT NULL UNIQUE,
         FIRST_NAME       VARCHAR(50) NOT NULL,
         LAST_NAME        VARCHAR(50) NOT NULL,
-        PASSWORD         VARCHAR(50) NOT NULL,
+        PASSWORD         VARCHAR(255) NOT NULL,
         ROLE             VARCHAR(50) NOT NULL,
         USER_STATUS      VARCHAR(50) NOT NULL
     );
