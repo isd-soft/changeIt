@@ -16,7 +16,7 @@
         DOMAIN_NAME      VARCHAR(50)
     );
     CREATE TABLE domain_problem (
-        PROBLEM_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        PROBLEM_ID       BIGINT,
         DOMAIN_ID        BIGINT
     );
     CREATE TABLE location (
@@ -41,7 +41,7 @@
         EMAIL            VARCHAR(50) NOT NULL UNIQUE,
         FIRST_NAME       VARCHAR(50) NOT NULL,
         LAST_NAME        VARCHAR(50) NOT NULL,
-        PASSWORD         VARCHAR(50) NOT NULL,
+        PASSWORD         VARCHAR(255) NOT NULL,
         ROLE             VARCHAR(50) NOT NULL,
         USER_STATUS      VARCHAR(50) NOT NULL
     );
@@ -61,6 +61,9 @@
     ALTER TABLE DOMAIN_PROBLEM
         ADD CONSTRAINT problem_domain FOREIGN KEY (PROBLEM_ID)
             REFERENCES problem;
+
+    ALTER TABLE domain_problem
+        ADD CONSTRAINT problem_domain_pk PRIMARY KEY (PROBLEM_ID, DOMAIN_ID);
 
     ALTER TABLE location
         ADD CONSTRAINT location_district_fk FOREIGN KEY (DISTRICT_ID)

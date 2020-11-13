@@ -1,5 +1,6 @@
 package com.internship.changeit.controller;
 
+import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Problem;
