@@ -36,7 +36,7 @@ public class UserController {
             user.setUserStatus(UserStatus.INACTIVE);
             userService.registerNewUser(user);
 
-            final String appUrl = "http://" +  request.getServerName() + request.getServerPort() + request.getContextPath();
+            final String appUrl = "http://" +  request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appUrl, user));
             return user;

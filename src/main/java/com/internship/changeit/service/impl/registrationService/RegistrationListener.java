@@ -13,6 +13,7 @@ import java.util.UUID;
 @Component
 @AllArgsConstructor
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
+    private final String resourceUri = "/api/v1/user/registrationConfirm";
 
     private final UserService userService;
     private final JavaMailSender mailSender;
@@ -29,19 +30,19 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
         userService.createVerificationToken(user, token);
 
-        final SimpleMailMessage email = constructEmailMessage(user, token);
+        final SimpleMailMessage email = constructEmailMessage(event, user, token);
         mailSender.send(email);
     }
 
-    private SimpleMailMessage constructEmailMessage(final User user, final String token) {
+    private SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final User user, final String token) {
         final String address = user.getEmail();
         final String subject = "Registration Confirmation";
-        final String confirmationUrl = "http://localhost:8080/api/v1/user/registrationConfirm?token=" + token;
+        final String appUrl = event.getAppUrl() + resourceUri + "?token="+token;
 
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(address);
         email.setSubject(subject);
-        email.setText("Please open following URL to verify your account: \r\n" + confirmationUrl);
+        email.setText("Please open following URL to verify your account: \r\n" + appUrl);
 
         return email;
     }
