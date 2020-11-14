@@ -2,6 +2,7 @@ package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.dto.UserDto;
+import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Status;
@@ -27,5 +28,10 @@ public class AdminController {
        return UserMapper.INSTANCE.toDto(user);
     }
 
+    @PutMapping("/problem/{id}")
+    public ProblemDto changeProblemStatus(@PathVariable final Long id, @RequestParam final Status status){
+        Problem problem = problemService.updateProblemStatus(id, status);
 
+        return ProblemMapper.INSTANCE.toDto(problem);
+    }
 }
