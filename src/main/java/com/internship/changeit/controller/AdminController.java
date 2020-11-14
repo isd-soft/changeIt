@@ -24,14 +24,12 @@ public class AdminController {
     @PutMapping("/user/{id}")
     public UserDto changeUserStatus(@PathVariable final Long id, @RequestParam final UserStatus userStatus){
        User user =  userService.updateUserStatus(id, userStatus);
-
        return UserMapper.INSTANCE.toDto(user);
     }
 
     @PutMapping("/problem/{id}")
     public ProblemDto changeProblemStatus(@PathVariable final Long id, @RequestParam final Status status){
         Problem problem = problemService.updateProblemStatus(id, status);
-
         return ProblemMapper.INSTANCE.toDto(problem);
     }
 }

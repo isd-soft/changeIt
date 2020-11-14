@@ -24,7 +24,7 @@ public class ProblemController {
     List<ProblemDto> all() {
         return problemService.getAllProblems()
                 .stream()
-                .map( ProblemMapper.INSTANCE::toDto )
+                .map(ProblemMapper.INSTANCE::toDto )
                 .collect( Collectors.toList() );
     }
 
