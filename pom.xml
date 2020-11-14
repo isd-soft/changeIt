@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>2.2.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.internship</groupId>
@@ -16,6 +16,13 @@
 
     <properties>
         <java.version>11</java.version>
+        <tymeleaf.version>2.3.4.RELEASE</tymeleaf.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+        <flyway-maven-plugin.version>6.0.3</flyway-maven-plugin.version>
+        <flyway-maven-plugin.user>postgres</flyway-maven-plugin.user>
+        <flyway-maven-plugin.password>password</flyway-maven-plugin.password>
+        <flyway-maven-plugin.url>jdbc:postgresql://localhost:5432/changeit_db</flyway-maven-plugin.url>
     </properties>
 
     <dependencies>
@@ -31,12 +38,20 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -59,6 +74,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -66,6 +91,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway-maven-plugin.version}</version>
+                <configuration>
+                    <url>${flyway-maven-plugin.url}</url>
+                    <user>${flyway-maven-plugin.user}</user>
+                    <password>${flyway-maven-plugin.password}</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>
