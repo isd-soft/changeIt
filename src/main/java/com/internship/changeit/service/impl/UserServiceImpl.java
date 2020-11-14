@@ -4,8 +4,9 @@ import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Role;
 import com.internship.changeit.model.User;
-import com.internship.changeit.model.UserStatus;
+import com.internship.changeit.model.VerificationToken;
 import com.internship.changeit.repository.UserRepository;
+import com.internship.changeit.repository.VerificationTokenRepo;
 import com.internship.changeit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +19,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final VerificationTokenRepo verificationTokenRepo;
     private final BCryptPasswordEncoder encoder;
 
     @Override
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User user){
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 
@@ -54,10 +56,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveOrUpdateUser(final User user) {
+    public void registerNewUser(final User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setUserStatus(UserStatus.ACTIVE);
         user.setRole(Role.USER);
         userRepository.save(user);
+    }
+
+    @Override
+    public void createVerificationToken(final User user, final String token) {
+        final VerificationToken userVerificationToken = new VerificationToken(token, user);
+        verificationTokenRepo.save(userVerificationToken);
     }
 }

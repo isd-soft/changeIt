@@ -40,6 +40,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne
+    private VerificationToken verificationToken;
+
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
 

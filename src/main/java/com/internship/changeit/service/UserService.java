@@ -18,5 +18,7 @@ public interface UserService {
 
     boolean isEmailUnique(String email);
 
-    void saveOrUpdateUser(User user);
+    void registerNewUser(User user);
+
+    void createVerificationToken(User user, String token);
 }
