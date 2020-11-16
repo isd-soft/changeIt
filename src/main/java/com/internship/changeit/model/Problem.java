@@ -1,5 +1,7 @@
 package com.internship.changeit.model;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -50,6 +52,10 @@ public class Problem {
         inverseJoinColumns = @JoinColumn(name = "domain_id"))
     private List<Domain> domains = new ArrayList<>();
 
+
+    public void vote() {
+        this.votes++;
+    }
 
     public Long getProblem_id() {
         return problem_id;

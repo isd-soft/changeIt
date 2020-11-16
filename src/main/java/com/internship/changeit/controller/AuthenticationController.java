@@ -37,8 +37,10 @@ public class AuthenticationController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             User user = userService.getUserByEmail(request.getEmail());
 
-            if(user == null)
-                    throw  new ApplicationException(ExceptionType.USER_NOT_FOUND);
+            if(user == null){
+                throw  new ApplicationException(ExceptionType.USER_NOT_FOUND);
+            }
+
 
             String firstName = userService.getUserByEmail(request.getEmail()).getFirstName();
             String lastName = userService.getUserByEmail(request.getEmail()).getLastName();
