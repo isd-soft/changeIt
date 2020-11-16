@@ -1,6 +1,7 @@
 package com.internship.changeit.service;
 
 import com.internship.changeit.model.Problem;
+import com.internship.changeit.model.Status;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface ProblemService {
 
     void deleteProblem(Long id);
 
+    Problem updateProblemStatus(Long id, Status status);
 }

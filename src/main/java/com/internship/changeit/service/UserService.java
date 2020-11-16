@@ -1,6 +1,7 @@
 package com.internship.changeit.service;
 
 import com.internship.changeit.model.User;
+import com.internship.changeit.model.UserStatus;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface UserService {
     boolean isEmailUnique(String email);
 
     void saveOrUpdateUser(User user);
+
+    User updateUserStatus(Long id, UserStatus userStatus);
 }
