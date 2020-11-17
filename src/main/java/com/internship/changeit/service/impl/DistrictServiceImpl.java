@@ -3,7 +3,6 @@ package com.internship.changeit.service.impl;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.District;
-import com.internship.changeit.model.Domain;
 import com.internship.changeit.repository.DistrictRepository;
 import com.internship.changeit.service.DistrictService;
 import org.springframework.stereotype.Service;

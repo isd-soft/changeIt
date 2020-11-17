@@ -2,7 +2,6 @@ package com.internship.changeit.service.impl;
 
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
-import com.internship.changeit.model.District;
 import com.internship.changeit.model.Location;
 import com.internship.changeit.repository.LocationRepository;
 import com.internship.changeit.service.LocationService;

@@ -1,7 +1,6 @@
 package com.internship.changeit.service;
 
 import com.internship.changeit.model.Domain;
-import com.internship.changeit.model.Problem;
 
 import java.util.List;
 

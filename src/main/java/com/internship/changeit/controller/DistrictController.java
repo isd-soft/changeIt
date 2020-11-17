@@ -1,11 +1,8 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.DistrictDto;
-import com.internship.changeit.dto.DomainDto;
 import com.internship.changeit.mapper.DistrictMapper;
-import com.internship.changeit.mapper.DomainMapper;
 import com.internship.changeit.model.District;
-import com.internship.changeit.model.Domain;
 import com.internship.changeit.service.DistrictService;
 import org.springframework.web.bind.annotation.*;
 

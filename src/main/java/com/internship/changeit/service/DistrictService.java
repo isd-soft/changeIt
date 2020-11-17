@@ -1,7 +1,6 @@
 package com.internship.changeit.service;
 
 import com.internship.changeit.model.District;
-import com.internship.changeit.model.Domain;
 
 import java.util.List;
 
