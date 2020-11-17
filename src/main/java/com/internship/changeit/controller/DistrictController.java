@@ -33,6 +33,13 @@ public class DistrictController {
         return districtService.saveDistrict(district);
     }
 
+    @PutMapping("/{id}")
+    DistrictDto replaceDistrict(@RequestBody DistrictDto newDistrictDto, @PathVariable Long id) {
+        District newDistrict = DistrictMapper.INSTANCE.fromDto(newDistrictDto);
+        districtService.updateDistrict(newDistrict, id);
+        return newDistrictDto;
+    }
+
     @DeleteMapping("/{id}")
     void deleteDistrict(@PathVariable Long id){
         districtService.deleteDistrict(id);

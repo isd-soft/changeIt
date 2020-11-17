@@ -8,6 +8,7 @@ import com.internship.changeit.service.DistrictService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DistrictServiceImpl implements DistrictService {
@@ -27,6 +28,19 @@ public class DistrictServiceImpl implements DistrictService {
     public District saveDistrict(District district) {
         districtRepository.save(district);
         return district;
+    }
+
+    @Override
+    public District updateDistrict(District newDistrict, Long id) {
+
+        Optional<District> optionalDistrict = districtRepository.findById(id);
+
+        if(optionalDistrict.isPresent()){
+            District updatable = optionalDistrict.get();
+            updatable.setDistrictName(newDistrict.getDistrictName());
+            districtRepository.save(updatable);
+            return updatable;
+        } else throw new ApplicationException(ExceptionType.DISTRICT_NOT_FOUND);
     }
 
     @Override

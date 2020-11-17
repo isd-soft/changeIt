@@ -10,5 +10,7 @@ public interface LocationService {
 
     Location saveLocation(Location location);
 
+    Location updateLocation(Location location, Long id);
+
     void deleteLocation(long id);
 }

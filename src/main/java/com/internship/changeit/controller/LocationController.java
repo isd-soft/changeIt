@@ -1,12 +1,8 @@
 package com.internship.changeit.controller;
 
-import com.internship.changeit.dto.DistrictDto;
 import com.internship.changeit.dto.LocationDto;
-import com.internship.changeit.mapper.DistrictMapper;
 import com.internship.changeit.mapper.LocationMapper;
-import com.internship.changeit.model.District;
 import com.internship.changeit.model.Location;
-import com.internship.changeit.service.DistrictService;
 import com.internship.changeit.service.LocationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +31,13 @@ public class LocationController {
         Location location = LocationMapper.INSTANCE.fromDto(locationDto);
         locationService.saveLocation(location);
         return locationService.saveLocation(location);
+    }
+
+    @PutMapping("/{id}")
+    LocationDto replaceLocation(@RequestBody LocationDto newLocationDto, @PathVariable Long id) {
+        Location newLocation = LocationMapper.INSTANCE.fromDto(newLocationDto);
+        locationService.updateLocation(newLocation, id);
+        return newLocationDto;
     }
 
     @DeleteMapping("/{id}")
