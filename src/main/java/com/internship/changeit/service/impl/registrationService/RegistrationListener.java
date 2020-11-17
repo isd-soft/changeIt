@@ -24,6 +24,8 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         this.confirmRegistration(onRegistrationCompleteEvent);
     }
 
+
+
     private void confirmRegistration(final OnRegistrationCompleteEvent event) {
         final User user = event.getUser();
         final String token = UUID.randomUUID().toString();

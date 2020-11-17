@@ -9,6 +9,8 @@ import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.repository.VerificationTokenRepo;
 import com.internship.changeit.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.cfg.Environment;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,5 +68,15 @@ public class UserServiceImpl implements UserService {
     public void createVerificationToken(final User user, final String token) {
         final VerificationToken userVerificationToken = new VerificationToken(token, user);
         verificationTokenRepo.save(userVerificationToken);
+    }
+
+    @Override
+    public SimpleMailMessage constructResetTokenEmail(final String contextPath, final String token, final User user) {
+        final String url = contextPath + "/user/changePassword?id=" + user.getUser_id() + "&token=" + token;
+        final SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(user.getEmail());
+        email.setSubject("Reset Password");
+        email.setText("Please open the following URL to reset your password: \r\n" + url);
+        return email;
     }
 }

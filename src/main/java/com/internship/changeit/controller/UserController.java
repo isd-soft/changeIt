@@ -15,10 +15,18 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -28,15 +36,17 @@ public class UserController {
     private final UserService userService;
     private final VerificationTokenRepo verificationTokenRepo;
     private final ApplicationEventPublisher eventPublisher;
+    private final JavaMailSender mailSender;
+    private final UserDetailsService userDetailsService;
 
     @PostMapping("/register")
     public User registerUser(@Valid @RequestBody final UserDto userDto, final HttpServletRequest request) {
         final User user = UserMapper.INSTANCE.fromDto(userDto);
-        if(userService.isEmailUnique(user.getEmail())) {
+        if (userService.isEmailUnique(user.getEmail())) {
             user.setUserStatus(UserStatus.INACTIVE);
             userService.registerNewUser(user);
 
-            final String appUrl = "http://" +  request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appUrl, user));
             return user;
@@ -44,7 +54,7 @@ public class UserController {
     }
 
     @GetMapping("/registrationConfirm")
-    public ResponseEntity<?> confirmRegistration(@RequestParam("token") final String token){
+    public ResponseEntity<?> confirmRegistration(@RequestParam("token") final String token) {
         final VerificationToken verificationToken = verificationTokenRepo.findByToken(token);
         final User user = verificationToken.getUser();
 
@@ -52,5 +62,37 @@ public class UserController {
         userService.saveUser(user);
 
         return new ResponseEntity<>("You account is confirmed", HttpStatus.OK);
+    }
+
+    @PostMapping("/resetPassword")
+    public void resetPassword(@RequestParam final String userEmail, final HttpServletRequest request) {
+        final User user = userService.getUserByEmail(userEmail);
+        if (user != null) {
+            final String token = UUID.randomUUID().toString();
+            userService.createVerificationToken(user, token);
+            final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            final SimpleMailMessage email = userService.constructResetTokenEmail(appUrl, token, user);
+            mailSender.send(email);
+        } else throw new ApplicationException(ExceptionType.EMAIL_NOT_VALID);
+    }
+
+    @GetMapping("/resetPassword")
+    public void showChangePasswordPage(@RequestParam("token") final String token) {
+        final VerificationToken verificationToken = verificationTokenRepo.findByToken(token);
+        final User user = verificationToken.getUser();
+
+        final Authentication auth = new UsernamePasswordAuthenticationToken(user, null, userDetailsService.loadUserByUsername(user.getEmail()).getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
+    @PostMapping("/savePassword")
+    public ResponseEntity<?> resetPassword(@RequestParam("password") final String password, @RequestParam("passwordConfirmation") final String passwordConfirmation) {
+        if (!password.equals(passwordConfirmation))
+            throw new ApplicationException(ExceptionType.INVALID_ARGUMENTS);
+
+        final User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        userService.saveUser(user);
+        return ResponseEntity.ok(user);
     }
 }
