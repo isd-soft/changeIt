@@ -1,8 +1,11 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.DistrictDto;
+import com.internship.changeit.dto.DomainDto;
 import com.internship.changeit.mapper.DistrictMapper;
+import com.internship.changeit.mapper.DomainMapper;
 import com.internship.changeit.model.District;
+import com.internship.changeit.model.Domain;
 import com.internship.changeit.service.DistrictService;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +34,13 @@ public class DistrictController {
         District district = DistrictMapper.INSTANCE.fromDto(districtDto);
         districtService.saveDistrict(district);
         return districtService.saveDistrict(district);
+    }
+
+    @PutMapping("/{id}")
+    DistrictDto replaceDistrict(@RequestBody DistrictDto newDistrictDto, @PathVariable Long id) {
+        District newDistrict = DistrictMapper.INSTANCE.fromDto(newDistrictDto);
+        districtService.updateDistrict(newDistrict, id);
+        return newDistrictDto;
     }
 
     @DeleteMapping("/{id}")

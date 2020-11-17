@@ -1,8 +1,11 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.DomainDto;
+import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.mapper.DomainMapper;
+import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Domain;
+import com.internship.changeit.model.Problem;
 import com.internship.changeit.service.DomainService;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,5 +35,17 @@ public class DomainController {
         domainService.saveDomain(domain);
         return domainService.saveDomain(domain);
     }
-    
+
+    @PutMapping("/{id}")
+    DomainDto replaceDomain(@RequestBody DomainDto newDomainDto, @PathVariable Long id) {
+        Domain newDomain = DomainMapper.INSTANCE.fromDto(newDomainDto);
+        domainService.updateDomain(newDomain, id);
+        return newDomainDto;
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteDomain(@PathVariable Long id){
+        domainService.deleteDomain(id);
+    }
+
 }

@@ -37,6 +37,13 @@ public class LocationController {
         return locationService.saveLocation(location);
     }
 
+    @PutMapping("/{id}")
+    LocationDto replaceLocation(@RequestBody LocationDto newLocationDto, @PathVariable Long id) {
+        Location newLocation = LocationMapper.INSTANCE.fromDto(newLocationDto);
+        locationService.updateLocation(newLocation, id);
+        return newLocationDto;
+    }
+
     @DeleteMapping("/{id}")
     void deleteLocation(@PathVariable Long id){
         locationService.deleteLocation(id);
