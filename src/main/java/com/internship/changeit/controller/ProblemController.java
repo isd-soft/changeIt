@@ -2,8 +2,10 @@ package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.ProblemDto;
+import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Problem;
+import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +17,11 @@ import java.util.stream.Collectors;
 public class ProblemController {
 
     private final ProblemServiceImpl problemService;
+    private final CommentServiceImpl commentService;
 
-    public ProblemController(ProblemServiceImpl problemService) {
+    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService) {
         this.problemService = problemService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -26,6 +30,14 @@ public class ProblemController {
                 .stream()
                 .map(ProblemMapper.INSTANCE::toDto )
                 .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/{id}/comments")
+    List<CommentDto> getCommentsByProblem(@PathVariable Long id) {
+        return commentService.getByProblem(id)
+                .stream()
+                .map(CommentMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping

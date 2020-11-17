@@ -8,6 +8,8 @@ import java.util.Date;
 public class CommentDto {
 
     private Long comment_id;
+    private ProblemDto problem;
+    private UserDto user;
     private Integer votes;
     private String content;
     private Date created_at;
