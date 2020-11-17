@@ -8,18 +8,19 @@ import com.internship.changeit.model.District;
 import com.internship.changeit.model.Location;
 import com.internship.changeit.service.DistrictService;
 import com.internship.changeit.service.LocationService;
+import com.internship.changeit.service.impl.LocationServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/vi/location")
+@RequestMapping("/api/v1/location")
 public class LocationController {
 
-    private final LocationService locationService;
+    private final LocationServiceImpl locationService;
 
-    public LocationController(LocationService locationService) {
+    public LocationController(LocationServiceImpl locationService) {
         this.locationService = locationService;
     }
 
