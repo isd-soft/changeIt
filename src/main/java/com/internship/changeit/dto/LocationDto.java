@@ -1,6 +1,5 @@
 package com.internship.changeit.dto;
 
-import com.internship.changeit.model.District;
 import lombok.Data;
 
 @Data

@@ -32,5 +32,17 @@ public class DomainController {
         domainService.saveDomain(domain);
         return domainService.saveDomain(domain);
     }
-    
+
+    @PutMapping("/{id}")
+    DomainDto replaceDomain(@RequestBody DomainDto newDomainDto, @PathVariable Long id) {
+        Domain newDomain = DomainMapper.INSTANCE.fromDto(newDomainDto);
+        domainService.updateDomain(newDomain, id);
+        return newDomainDto;
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteDomain(@PathVariable Long id){
+        domainService.deleteDomain(id);
+    }
+
 }
