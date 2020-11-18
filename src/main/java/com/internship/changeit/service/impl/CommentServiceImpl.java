@@ -37,7 +37,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment saveComment(Comment comment) {
-        comment.setCreated_at(new Date());
         comment.setUser(userRepository.findByEmail(comment.getUser().getEmail()).get());
         comment.setVotes(0);
         commentRepository.save(comment);
