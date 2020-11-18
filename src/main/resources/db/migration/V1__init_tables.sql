@@ -31,7 +31,7 @@
         STATUS           VARCHAR(30) DEFAULT 'ACTIVE' NOT NULL,
         TITLE            VARCHAR(255),
         UPDATED_AT       TIMESTAMP,
-        VOTES            INTEGER,
+        VOTES_COUNT      INTEGER DEFAULT 0 NOT NULL,
         DISTRICT_ID      BIGINT,
         LOCATION_ID      BIGINT,
         USER_ID          BIGINT
