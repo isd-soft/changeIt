@@ -46,7 +46,7 @@ public class ProblemServiceImpl implements ProblemService {
             Problem updatable = optionalProblem.get();
             updatable.setTitle(newProblem.getTitle());
             updatable.setDescription(newProblem.getDescription());
-            updatable.setVotes(newProblem.getVotes());
+            updatable.setVotesCount(newProblem.getVotesCount());
             updatable.setCreated_at(newProblem.getCreated_at());
             updatable.setUpdated_at(newProblem.getUpdated_at());
             updatable.setStatus((newProblem.getStatus()));

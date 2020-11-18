@@ -31,4 +31,6 @@ public class UserController {
         } else throw new ApplicationException(ExceptionType.USER_ALREADY_EXIST);
     }
 
+
+
 }
