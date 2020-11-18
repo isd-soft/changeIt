@@ -7,6 +7,6 @@ import lombok.Data;
 public class LocationDto {
     private Long location_id;
     private String locationName;
-    private District district_id;
+    private DistrictDto district;
 
 }
