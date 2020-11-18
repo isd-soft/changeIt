@@ -14,5 +14,6 @@ public class ProblemDto {
     private Date created_at;
     private Date updated_at;
     private String status;
+    private LocationDto location;;
 
 }
