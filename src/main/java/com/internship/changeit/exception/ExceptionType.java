@@ -13,7 +13,8 @@ public enum ExceptionType {
     UNAUTHORIZED_USER("Authentication is required to access the resource", HttpStatus.UNAUTHORIZED),
     DISTRICT_NOT_FOUND("District not found", HttpStatus.NOT_FOUND),
     LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND),
-    EMAIL_NOT_VALID("No user founder with this email", HttpStatus.BAD_REQUEST);
+    EMAIL_NOT_VALID("No user founder with this email", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN("Invalid or expired token", HttpStatus.FORBIDDEN);
 
     private final String message;
     private final HttpStatus httpStatus;

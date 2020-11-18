@@ -23,5 +23,5 @@ public interface UserService {
 
     void createVerificationToken(User user, String token);
 
-    SimpleMailMessage constructResetTokenEmail(final String contextPath, final String token, final User user);
+    SimpleMailMessage constructResetPasswordEmail(final String contextPath, final String token, final User user);
 }

@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -37,7 +39,6 @@ public class UserController {
     private final VerificationTokenRepo verificationTokenRepo;
     private final ApplicationEventPublisher eventPublisher;
     private final JavaMailSender mailSender;
-    private final UserDetailsService userDetailsService;
 
     @PostMapping("/register")
     public User registerUser(@Valid @RequestBody final UserDto userDto, final HttpServletRequest request) {
@@ -45,9 +46,7 @@ public class UserController {
         if (userService.isEmailUnique(user.getEmail())) {
             user.setUserStatus(UserStatus.INACTIVE);
             userService.registerNewUser(user);
-
             final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appUrl, user));
             return user;
         } else throw new ApplicationException(ExceptionType.USER_ALREADY_EXIST);
@@ -57,42 +56,42 @@ public class UserController {
     public ResponseEntity<?> confirmRegistration(@RequestParam("token") final String token) {
         final VerificationToken verificationToken = verificationTokenRepo.findByToken(token);
         final User user = verificationToken.getUser();
-
         user.setUserStatus(UserStatus.ACTIVE);
         userService.saveUser(user);
-
         return new ResponseEntity<>("You account is confirmed", HttpStatus.OK);
     }
 
     @PostMapping("/resetPassword")
-    public void resetPassword(@RequestParam final String userEmail, final HttpServletRequest request) {
+    public ResponseEntity<?> resetPassword(@RequestParam final String userEmail, final HttpServletRequest request) {
         final User user = userService.getUserByEmail(userEmail);
         if (user != null) {
             final String token = UUID.randomUUID().toString();
             userService.createVerificationToken(user, token);
             final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-            final SimpleMailMessage email = userService.constructResetTokenEmail(appUrl, token, user);
+            final SimpleMailMessage email = userService.constructResetPasswordEmail(appUrl, token, user);
             mailSender.send(email);
+            Map<Object, Object> response = new HashMap<>();
+            response.put("Message", "You should receive an Password Reset Email shortly");
+            return ResponseEntity.ok(response);
         } else throw new ApplicationException(ExceptionType.EMAIL_NOT_VALID);
     }
 
-    @GetMapping("/resetPassword")
-    public void showChangePasswordPage(@RequestParam("token") final String token) {
+
+    @PostMapping("/savePassword")
+    public ResponseEntity<?> resetPassword(@RequestParam("password") final String password,
+                                           @RequestParam("token") final String token,
+                                           @RequestParam("id") final long id,
+                                           @RequestParam("passwordConfirmation") final String passwordConfirmation) {
+        if (!password.equals(passwordConfirmation))
+            throw new ApplicationException(ExceptionType.INVALID_ARGUMENTS);
         final VerificationToken verificationToken = verificationTokenRepo.findByToken(token);
         final User user = verificationToken.getUser();
 
-        final Authentication auth = new UsernamePasswordAuthenticationToken(user, null, userDetailsService.loadUserByUsername(user.getEmail()).getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
-    }
-
-    @PostMapping("/savePassword")
-    public ResponseEntity<?> resetPassword(@RequestParam("password") final String password, @RequestParam("passwordConfirmation") final String passwordConfirmation) {
-        if (!password.equals(passwordConfirmation))
-            throw new ApplicationException(ExceptionType.INVALID_ARGUMENTS);
-
-        final User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user == null || user.getUser_id() != id) {
+            throw new ApplicationException(ExceptionType.USER_NOT_FOUND);
+        }
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         userService.saveUser(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok("Your password has been changed successful");
     }
 }
