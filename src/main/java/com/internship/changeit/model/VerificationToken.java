@@ -7,12 +7,12 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@Entity
+@Entity(name = "verification_token")
 public class VerificationToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long token_id;
     private String token;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)

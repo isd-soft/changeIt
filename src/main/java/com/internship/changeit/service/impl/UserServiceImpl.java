@@ -4,6 +4,7 @@ import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Role;
 import com.internship.changeit.model.User;
+import com.internship.changeit.model.UserStatus;
 import com.internship.changeit.model.VerificationToken;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.repository.VerificationTokenRepo;

@@ -29,8 +29,6 @@ public interface UserService {
 
     SimpleMailMessage constructResetPasswordEmail(final String contextPath, final String token, final User user);
 
-    void saveOrUpdateUser(User user);
-
     User updateUserStatus(Long id, UserStatus userStatus);
 
 }
