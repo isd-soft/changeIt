@@ -43,6 +43,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne
+    private VerificationToken verificationToken;
+
     @OneToMany(mappedBy = "user")
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.READ_WRITE)

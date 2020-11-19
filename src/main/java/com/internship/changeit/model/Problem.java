@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 @Data
 @Entity
 @Cacheable
@@ -63,7 +64,5 @@ public class Problem {
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Vote> votes = new ArrayList<>();
-
-
 
 }
