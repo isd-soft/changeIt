@@ -8,7 +8,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -47,6 +49,9 @@ public class User {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Problem> problems = new ArrayList<>();
+    private List<Problem> problemsAdded = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Vote> votes = new ArrayList<>();
 
 }

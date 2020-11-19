@@ -48,6 +48,7 @@ public class UserController {
         } else throw new ApplicationException(ExceptionType.USER_ALREADY_EXIST);
     }
 
+
     @GetMapping("/registrationConfirm")
     public ResponseEntity<?> confirmRegistration(@RequestParam("token") final String token) {
         final VerificationToken verificationToken = verificationTokenRepo.findByToken(token);

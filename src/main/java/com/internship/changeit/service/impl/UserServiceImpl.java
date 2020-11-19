@@ -78,4 +78,13 @@ public class UserServiceImpl implements UserService {
         email.setText("Please open the following URL to reset your password: \r\n" + url);
         return email;
     }
+  
+    public User updateUserStatus(final Long id, final UserStatus userStatus) {
+        final User user = this.userRepository.findById(id).orElseThrow(
+                () -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
+        user.setUserStatus(userStatus);
+        this.userRepository.save(user);
+        return user;
+
+    }
 }

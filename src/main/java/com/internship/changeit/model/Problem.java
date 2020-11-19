@@ -6,6 +6,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
+
+import javax.persistence.*;
+import java.util.*;
+
 
 @Data
 @Entity
@@ -19,7 +25,9 @@ public class Problem {
 
     private String title;
     private String description;
-    private Integer votes;
+
+    @Column(name = "votes_count")
+    private Integer votesCount;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
@@ -42,7 +50,7 @@ public class Problem {
     @JoinColumn(name = "district_id")
     private District district;
 
-    @OneToMany(mappedBy = "problem")
+    @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -50,5 +58,8 @@ public class Problem {
         joinColumns = @JoinColumn(name = "problem_id"),
         inverseJoinColumns = @JoinColumn(name = "domain_id"))
     private List<Domain> domains = new ArrayList<>();
+
+    @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
+    private List<Vote> votes = new ArrayList<>();
 
 }

@@ -28,10 +28,10 @@ public class CommentController {
     }
 
     @PostMapping
-    public Comment createComment(@RequestBody CommentDto commentDto){
+    public CommentDto createComment(@RequestBody CommentDto commentDto){
         Comment comment = CommentMapper.INSTANCE.fromDto(commentDto);
         commentService.saveComment(comment);
-        return commentService.saveComment(comment);
+        return commentDto;
     }
 
     @DeleteMapping("/{id}")

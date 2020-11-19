@@ -16,7 +16,7 @@
         DOMAIN_NAME      VARCHAR(50)
     );
     CREATE TABLE domain_problem (
-        PROBLEM_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        PROBLEM_ID       BIGINT,
         DOMAIN_ID        BIGINT
     );
     CREATE TABLE location (
@@ -26,12 +26,12 @@
     );
     CREATE TABLE problem (
         PROBLEM_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        CREATED_AT       TIMESTAMP,
+        CREATED_AT       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         DESCRIPTION      VARCHAR(255),
-        STATUS           VARCHAR(30),
+        STATUS           VARCHAR(30) DEFAULT 'ACTIVE' NOT NULL,
         TITLE            VARCHAR(255),
         UPDATED_AT       TIMESTAMP,
-        VOTES            INTEGER,
+        VOTES_COUNT      INTEGER DEFAULT 0 NOT NULL,
         DISTRICT_ID      BIGINT,
         LOCATION_ID      BIGINT,
         USER_ID          BIGINT
@@ -61,6 +61,9 @@
     ALTER TABLE DOMAIN_PROBLEM
         ADD CONSTRAINT problem_domain FOREIGN KEY (PROBLEM_ID)
             REFERENCES problem;
+
+    ALTER TABLE domain_problem
+        ADD CONSTRAINT problem_domain_pk PRIMARY KEY (PROBLEM_ID, DOMAIN_ID);
 
     ALTER TABLE location
         ADD CONSTRAINT location_district_fk FOREIGN KEY (DISTRICT_ID)
