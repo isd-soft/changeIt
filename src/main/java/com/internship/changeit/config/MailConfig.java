@@ -1,4 +1,4 @@
-package com.internship.changeit.utils;
+package com.internship.changeit.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
