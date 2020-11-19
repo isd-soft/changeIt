@@ -8,6 +8,8 @@ import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,34 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public List<Problem> getAllProblems() {
         return problemRepository.findAll();
+    }
+
+    @Override
+    public List<Problem> sortProblemsByDateAsc(){
+        List<Problem> sortedProblems = this.getAllProblems();
+        sortedProblems.sort(compareByDateAsc);
+        return sortedProblems;
+    }
+
+    @Override
+    public List<Problem> sortProblemsByDateDesc(){
+        List<Problem> sortedProblems = this.getAllProblems();
+        sortedProblems.sort(compareByDateDesc);
+        return sortedProblems;
+    }
+
+    @Override
+    public List<Problem> sortProblemsByVoteAsc(){
+        List<Problem> sortedProblems = this.getAllProblems();
+        sortedProblems.sort(compareByVotesAsc);
+        return sortedProblems;
+    }
+
+    @Override
+    public List<Problem> sortProblemsByVoteDesc(){
+        List<Problem> sortedProblems = this.getAllProblems();
+        sortedProblems.sort(compareByVotesDesc);
+        return sortedProblems;
     }
 
     @Override
@@ -73,4 +103,35 @@ public class ProblemServiceImpl implements ProblemService {
         return problem;
     }
 
+    public static Comparator<Problem> compareByVotesAsc = (problem1, problem2) -> {
+
+        Integer votesCount1 = problem1.getVotesCount();
+        Integer votesCount2 = problem2.getVotesCount();
+
+        return votesCount1.compareTo(votesCount2);
+    };
+
+    public static Comparator<Problem> compareByVotesDesc = (problem1, problem2) -> {
+
+        Integer votesCount1 = problem1.getVotesCount();
+        Integer votesCount2 = problem2.getVotesCount();
+
+        return votesCount2.compareTo(votesCount1);
+    };
+
+    public static Comparator<Problem> compareByDateAsc = (problem1, problem2) -> {
+
+        Date created_At1 = problem1.getCreated_at();
+        Date created_At2 = problem2.getCreated_at();
+
+        return created_At1.compareTo(created_At2);
+    };
+
+    public static Comparator<Problem> compareByDateDesc = (problem1, problem2) -> {
+
+        Date created_At1 = problem1.getCreated_at();
+        Date created_At2 = problem2.getCreated_at();
+
+        return created_At2.compareTo(created_At1);
+    };
 }
