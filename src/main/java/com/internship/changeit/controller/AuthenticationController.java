@@ -13,7 +13,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,18 +40,18 @@ public class AuthenticationController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             User user = userService.getUserByEmail(request.getEmail());
 
-            if(user == null)
-                    throw  new ApplicationException(ExceptionType.USER_NOT_FOUND);
+            if(user == null){
+                throw  new ApplicationException(ExceptionType.USER_NOT_FOUND);
+            }
 
-            String firstName = userService.getUserByEmail(request.getEmail()).getFirstName();
-            String lastName = userService.getUserByEmail(request.getEmail()).getLastName();
 
             String token = jwtProvider.createToken(request.getEmail(), user.getRole().name());
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
-            response.put("firstName", firstName);
-            response.put("lastName", lastName);
+            response.put("firstName", user.getFirstName());
+            response.put("lastName", user.getLastName());
+            response.put("user_id", user.getUser_id());
 
             return ResponseEntity.ok(response);
         }catch (AuthenticationException e) {

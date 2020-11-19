@@ -2,6 +2,11 @@ package com.internship.changeit.service;
 
 import com.internship.changeit.model.User;
 
+import org.springframework.mail.SimpleMailMessage;
+
+import com.internship.changeit.model.UserStatus;
+
+
 import java.util.List;
 
 public interface UserService {
@@ -18,5 +23,12 @@ public interface UserService {
 
     boolean isEmailUnique(String email);
 
-    void saveOrUpdateUser(User user);
+    void registerNewUser(User user);
+
+    void createVerificationToken(User user, String token);
+
+    SimpleMailMessage constructResetPasswordEmail(final String contextPath, final String token, final User user);
+
+    User updateUserStatus(Long id, UserStatus userStatus);
+
 }

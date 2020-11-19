@@ -26,12 +26,12 @@
     );
     CREATE TABLE problem (
         PROBLEM_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        CREATED_AT       TIMESTAMP,
+        CREATED_AT       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         DESCRIPTION      VARCHAR(255),
-        STATUS           VARCHAR(30),
+        STATUS           VARCHAR(30) DEFAULT 'ACTIVE' NOT NULL,
         TITLE            VARCHAR(255),
         UPDATED_AT       TIMESTAMP,
-        VOTES            INTEGER,
+        VOTES_COUNT      INTEGER DEFAULT 0 NOT NULL,
         DISTRICT_ID      BIGINT,
         LOCATION_ID      BIGINT,
         USER_ID          BIGINT
