@@ -2,12 +2,15 @@ package com.internship.changeit.service.impl;
 
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
+import com.internship.changeit.model.Domain;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Status;
+import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -17,9 +20,11 @@ import java.util.Optional;
 public class ProblemServiceImpl implements ProblemService {
 
     private final ProblemRepository problemRepository;
+    private final DomainRepository domainRepository;
 
-    public ProblemServiceImpl(ProblemRepository problemRepository) {
+    public ProblemServiceImpl(ProblemRepository problemRepository, DomainRepository domainRepository) {
         this.problemRepository = problemRepository;
+        this.domainRepository = domainRepository;
     }
 
     @Override
@@ -63,6 +68,15 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Problem addProblem(Problem problem) {
+        List<Domain> domains = new ArrayList<>();
+        problem.getDomains().forEach(x -> {
+            Domain domain = domainRepository.getOne(x.getDomain_id());
+            if (domain != null){
+                domains.add(domain);
+            }
+        });
+        problem.setDistrict(problem.getLocation().getDistrict());
+        problem.setDomains(domains);
         problemRepository.save(problem);
         return problem;
     }

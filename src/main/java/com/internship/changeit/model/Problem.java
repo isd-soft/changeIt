@@ -1,11 +1,17 @@
 package com.internship.changeit.model;
 
 import lombok.Data;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 import java.util.*;
+
 
 @Data
 @Entity
@@ -55,7 +61,5 @@ public class Problem {
 
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     private List<Vote> votes = new ArrayList<>();
-
-
 
 }
