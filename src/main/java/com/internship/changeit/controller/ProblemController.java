@@ -8,15 +8,18 @@ import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.mapper.VoteMapper;
+import com.internship.changeit.model.Domain;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.User;
 import com.internship.changeit.model.Vote;
+import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +30,13 @@ public class ProblemController {
     private final ProblemServiceImpl problemService;
     private final CommentServiceImpl commentService;
     private final VoteServiceImpl voteService;
+    private final DomainRepository domainRepository;
 
-    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService) {
+    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService, DomainRepository domainRepository) {
         this.problemService = problemService;
         this.commentService = commentService;
         this.voteService = voteService;
+        this.domainRepository = domainRepository;
     }
 
     @GetMapping
@@ -59,6 +64,7 @@ public class ProblemController {
     ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
         problemService.addProblem(problem);
+        newProblemDto.setProblem_id(problem.getProblem_id());
         return newProblemDto;
     }
 
