@@ -1,10 +1,6 @@
 package com.internship.changeit.service;
 
-import com.internship.changeit.model.User;
 import com.internship.changeit.model.Vote;
-
-import java.util.Arrays;
-import java.util.List;
 
 public interface VoteService {
 

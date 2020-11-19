@@ -1,6 +1,7 @@
 package com.internship.changeit.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.Set;
 
 @Data
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "district")
 public class District  {
 
@@ -17,9 +20,13 @@ public class District  {
     private Long district_id;
     private String districtName;
 
-    @OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
-    private Set<Location> locations;
+    @OneToMany(mappedBy = "district", fetch = FetchType.EAGER)
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
+    private List<Location> locations = new ArrayList<>();
 
     @OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Problem> problems = new ArrayList<>();
 }

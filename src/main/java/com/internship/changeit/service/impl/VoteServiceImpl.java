@@ -1,18 +1,11 @@
 package com.internship.changeit.service.impl;
 
-import com.internship.changeit.exception.ApplicationException;
-import com.internship.changeit.exception.ExceptionType;
-import com.internship.changeit.model.Problem;
-import com.internship.changeit.model.User;
 import com.internship.changeit.model.Vote;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.repository.VoteRepository;
 import com.internship.changeit.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service

@@ -1,18 +1,12 @@
 package com.internship.changeit.controller;
 
 
-import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.dto.VoteDto;
-import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.mapper.VoteMapper;
-import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Vote;
 import com.internship.changeit.service.VoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController

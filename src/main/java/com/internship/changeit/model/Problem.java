@@ -1,17 +1,19 @@
 package com.internship.changeit.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldNameConstants;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "problem")
 public class Problem {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,15 +47,21 @@ public class Problem {
     private District district;
 
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "domain_problem",
         joinColumns = @JoinColumn(name = "problem_id"),
         inverseJoinColumns = @JoinColumn(name = "domain_id"))
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Domain> domains = new ArrayList<>();
 
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Vote> votes = new ArrayList<>();
 
 
