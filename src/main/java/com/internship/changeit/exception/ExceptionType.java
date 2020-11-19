@@ -12,8 +12,11 @@ public enum ExceptionType {
     INVALID_ARGUMENTS("Provided inputs are not valid", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED_USER("Authentication is required to access the resource", HttpStatus.UNAUTHORIZED),
     DISTRICT_NOT_FOUND("District not found", HttpStatus.NOT_FOUND),
+    EMAIL_NOT_VALID("No user founder with this email", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN("Invalid or expired token", HttpStatus.FORBIDDEN);
     DOMAIN_NOT_FOUND("Domain not found", HttpStatus.NOT_FOUND),
     LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND);
+
 
     private final String message;
     private final HttpStatus httpStatus;
