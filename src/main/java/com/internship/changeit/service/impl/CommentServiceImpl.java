@@ -3,11 +3,13 @@ package com.internship.changeit.service.impl;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Comment;
+import com.internship.changeit.model.Problem;
 import com.internship.changeit.repository.CommentRepository;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +31,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public List<Comment> getByProblem(Long id) {
-        return commentRepository.findAll()
+        List<Comment> sortedComments = this.getAllComments();
+        sortedComments.sort(compareByDateDesc);
+        return sortedComments
                 .stream()
                 .filter(comment -> comment.getProblem().getProblem_id().equals(id))
                 .collect(Collectors.toList());
@@ -49,4 +53,12 @@ public class CommentServiceImpl implements CommentService {
                 orElseThrow(() -> new ApplicationException(ExceptionType.COMMENT_NOT_FOUND));
         commentRepository.deleteById(id);
     }
+
+    public static Comparator<Comment> compareByDateDesc = (comment1, comment2) -> {
+
+        Date created_At1 = comment1.getCreated_at();
+        Date created_At2 = comment2.getCreated_at();
+
+        return created_At2.compareTo(created_At1);
+    };
 }
