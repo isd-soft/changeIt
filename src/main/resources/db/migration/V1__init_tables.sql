@@ -2,7 +2,7 @@
     CREATE TABLE comment (
         COMMENT_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         CONTENT          VARCHAR(255),
-        CREATED_AT       TIMESTAMP,
+        CREATED_AT       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         VOTES            INTEGER,
         PROBLEM_ID       BIGINT,
         USER_ID          BIGINT

@@ -47,6 +47,38 @@ public class ProblemController {
                 .collect( Collectors.toList() );
     }
 
+    @GetMapping("/sortedByDateAsc")
+    List<ProblemDto> allSortedByDateAsc() {
+        return problemService.sortProblemsByDateAsc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto )
+                .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/sortedByDateDesc")
+    List<ProblemDto> allSortedByDateDesc() {
+        return problemService.sortProblemsByDateDesc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto )
+                .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/sortedByVoteAsc")
+    List<ProblemDto> allSortedByVoteAsc() {
+        return problemService.sortProblemsByVoteAsc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto )
+                .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/sortedByVoteDesc")
+    List<ProblemDto> allSortedByVoteDesc() {
+        return problemService.sortProblemsByVoteDesc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/{id}/comments")
     List<CommentDto> getCommentsByProblem(@PathVariable Long id) {
         return commentService.getByProblem(id)
