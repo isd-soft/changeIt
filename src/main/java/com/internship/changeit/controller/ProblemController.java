@@ -97,6 +97,8 @@ public class ProblemController {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
         problemService.addProblem(problem);
         newProblemDto.setProblem_id(problem.getProblem_id());
+        newProblemDto.setCreated_at(problem.getCreated_at());
+        newProblemDto.setUpdated_at(problem.getUpdated_at());
         return newProblemDto;
     }
 
