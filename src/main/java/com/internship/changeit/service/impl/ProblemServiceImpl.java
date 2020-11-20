@@ -77,6 +77,8 @@ public class ProblemServiceImpl implements ProblemService {
         });
         problem.setDistrict(problem.getLocation().getDistrict());
         problem.setDomains(domains);
+        problem.setCreated_at(new Date());
+        problem.setUpdated_at(new Date());
         problemRepository.save(problem);
         return problem;
     }
