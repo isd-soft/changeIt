@@ -6,10 +6,12 @@ import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Status;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class ProblemServiceImpl implements ProblemService {

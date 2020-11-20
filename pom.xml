@@ -73,9 +73,12 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <version>3.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -128,5 +131,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

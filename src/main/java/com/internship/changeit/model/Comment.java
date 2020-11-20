@@ -8,7 +8,6 @@ import java.util.Date;
 
 @Data
 @Entity
-@Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "comment")
 public class Comment {
