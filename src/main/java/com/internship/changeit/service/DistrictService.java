@@ -10,5 +10,7 @@ public interface DistrictService {
 
     District saveDistrict(District district);
 
+    District updateDistrict(District district, Long id);
+
     void deleteDistrict(long id);
 }

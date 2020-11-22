@@ -2,7 +2,7 @@
     CREATE TABLE comment (
         COMMENT_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         CONTENT          VARCHAR(255),
-        CREATED_AT       TIMESTAMP,
+        CREATED_AT       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         VOTES            INTEGER,
         PROBLEM_ID       BIGINT,
         USER_ID          BIGINT
@@ -26,12 +26,12 @@
     );
     CREATE TABLE problem (
         PROBLEM_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        CREATED_AT       TIMESTAMP,
+        CREATED_AT       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         DESCRIPTION      VARCHAR(255),
-        STATUS           VARCHAR(30),
+        STATUS           VARCHAR(30) DEFAULT 'ACTIVE' NOT NULL,
         TITLE            VARCHAR(255),
         UPDATED_AT       TIMESTAMP,
-        VOTES            INTEGER,
+        VOTES_COUNT      INTEGER DEFAULT 0 NOT NULL,
         DISTRICT_ID      BIGINT,
         LOCATION_ID      BIGINT,
         USER_ID          BIGINT
@@ -48,35 +48,35 @@
 
     ALTER TABLE comment
         ADD CONSTRAINT comment_buss_fk FOREIGN KEY (PROBLEM_ID)
-             REFERENCES problem;
+             REFERENCES problem ON DELETE CASCADE ON UPDATE CASCADE;
 
     ALTER TABLE comment
         ADD CONSTRAINT comment_user_fk FOREIGN KEY (USER_ID)
-            REFERENCES user_entity;
+            REFERENCES user_entity ON DELETE CASCADE ON UPDATE CASCADE;
 
     ALTER TABLE domain_problem
         ADD CONSTRAINT domain_problem_fk FOREIGN KEY (DOMAIN_ID)
-            REFERENCES DOMAIN;
+            REFERENCES DOMAIN ON DELETE CASCADE ON UPDATE CASCADE;
 
     ALTER TABLE DOMAIN_PROBLEM
         ADD CONSTRAINT problem_domain FOREIGN KEY (PROBLEM_ID)
-            REFERENCES problem;
+            REFERENCES problem ON DELETE CASCADE ON UPDATE CASCADE;
 
     ALTER TABLE domain_problem
         ADD CONSTRAINT problem_domain_pk PRIMARY KEY (PROBLEM_ID, DOMAIN_ID);
 
     ALTER TABLE location
         ADD CONSTRAINT location_district_fk FOREIGN KEY (DISTRICT_ID)
-            REFERENCES DISTRICT;
+            REFERENCES DISTRICT ON DELETE CASCADE ON UPDATE CASCADE;
 
     ALTER TABLE problem
         ADD CONSTRAINT problem_district_fk FOREIGN KEY (DISTRICT_ID)
-                REFERENCES district;
+                REFERENCES district ON DELETE CASCADE ON UPDATE CASCADE;
 
     ALTER TABLE problem
         ADD CONSTRAINT problem_location_fk FOREIGN KEY (LOCATION_ID)
-            REFERENCES location;
+            REFERENCES location ON DELETE CASCADE ON UPDATE CASCADE;
 
     ALTER TABLE problem
         ADD CONSTRAINT problem_user_fk FOREIGN KEY (USER_ID)
-                REFERENCES user_entity;
+                REFERENCES user_entity ON DELETE CASCADE ON UPDATE CASCADE;

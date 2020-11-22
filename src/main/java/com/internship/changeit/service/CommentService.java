@@ -8,6 +8,8 @@ public interface CommentService {
 
     List<Comment> getAllComments();
 
+    List<Comment> getByProblem(Long id);
+
     Comment saveComment(Comment comment);
 
     void deleteComment(long id);

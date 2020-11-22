@@ -40,10 +40,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne
+    private VerificationToken verificationToken;
+
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Problem> problems = new ArrayList<>();
+    private List<Problem> problemsAdded = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Vote> votes = new ArrayList<>();
 
 }
