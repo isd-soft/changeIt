@@ -6,18 +6,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldNameConstants;
-
-import javax.persistence.*;
-import java.util.*;
-
 
 @Data
 @Entity
 @Table(name = "problem")
 public class Problem {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +46,7 @@ public class Problem {
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "domain_problem",
         joinColumns = @JoinColumn(name = "problem_id"),
         inverseJoinColumns = @JoinColumn(name = "domain_id"))

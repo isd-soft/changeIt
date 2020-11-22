@@ -2,24 +2,15 @@ package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.ProblemDto;
-import com.internship.changeit.dto.UserDto;
-import com.internship.changeit.dto.VoteDto;
 import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
-import com.internship.changeit.mapper.UserMapper;
-import com.internship.changeit.mapper.VoteMapper;
-import com.internship.changeit.model.Domain;
 import com.internship.changeit.model.Problem;
-import com.internship.changeit.model.User;
-import com.internship.changeit.model.Vote;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,7 +3,6 @@ package com.internship.changeit.service.impl;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Comment;
-import com.internship.changeit.model.Problem;
 import com.internship.changeit.repository.CommentRepository;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.CommentService;

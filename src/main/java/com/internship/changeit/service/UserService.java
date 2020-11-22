@@ -1,11 +1,8 @@
 package com.internship.changeit.service;
 
 import com.internship.changeit.model.User;
-
-import org.springframework.mail.SimpleMailMessage;
-
 import com.internship.changeit.model.UserStatus;
-
+import org.springframework.mail.SimpleMailMessage;
 
 import java.util.List;
 
