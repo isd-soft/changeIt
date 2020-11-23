@@ -17,7 +17,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping("/geocode")
+@RequestMapping("/api/v1/geocode")
 public class GoogleMapsController {
 
     @Value("${apiKey}")
