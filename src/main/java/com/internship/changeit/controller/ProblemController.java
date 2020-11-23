@@ -5,6 +5,7 @@ import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Problem;
+import com.internship.changeit.service.ImageService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
@@ -20,11 +21,14 @@ public class ProblemController {
     private final ProblemServiceImpl problemService;
     private final CommentServiceImpl commentService;
     private final VoteServiceImpl voteService;
+    private final ImageService imageService;
 
-    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService) {
+
+    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService, ImageService imageService) {
         this.problemService = problemService;
         this.commentService = commentService;
         this.voteService = voteService;
+        this.imageService = imageService;
     }
 
     @GetMapping
@@ -33,6 +37,38 @@ public class ProblemController {
                 .stream()
                 .map(ProblemMapper.INSTANCE::toDto )
                 .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/sortedByDateAsc")
+    List<ProblemDto> allSortedByDateAsc() {
+        return problemService.sortProblemsByDateAsc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto )
+                .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/sortedByDateDesc")
+    List<ProblemDto> allSortedByDateDesc() {
+        return problemService.sortProblemsByDateDesc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto )
+                .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/sortedByVoteAsc")
+    List<ProblemDto> allSortedByVoteAsc() {
+        return problemService.sortProblemsByVoteAsc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto )
+                .collect( Collectors.toList() );
+    }
+
+    @GetMapping("/sortedByVoteDesc")
+    List<ProblemDto> allSortedByVoteDesc() {
+        return problemService.sortProblemsByVoteDesc()
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}/comments")
@@ -52,6 +88,9 @@ public class ProblemController {
     ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
         problemService.addProblem(problem);
+        newProblemDto.setProblem_id(problem.getProblem_id());
+        newProblemDto.setCreated_at(problem.getCreated_at());
+        newProblemDto.setUpdated_at(problem.getUpdated_at());
         return newProblemDto;
     }
 

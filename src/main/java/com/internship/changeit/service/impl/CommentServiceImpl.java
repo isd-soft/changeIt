@@ -8,6 +8,7 @@ import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public List<Comment> getByProblem(Long id) {
-        return commentRepository.findAll()
+        List<Comment> sortedComments = this.getAllComments();
+        sortedComments.sort(compareByDateDesc);
+        return sortedComments
                 .stream()
                 .filter(comment -> comment.getProblem().getProblem_id().equals(id))
                 .collect(Collectors.toList());
@@ -37,7 +40,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment saveComment(Comment comment) {
-        comment.setCreated_at(new Date());
         comment.setUser(userRepository.findByEmail(comment.getUser().getEmail()).get());
         comment.setVotes(0);
         commentRepository.save(comment);
@@ -50,4 +52,12 @@ public class CommentServiceImpl implements CommentService {
                 orElseThrow(() -> new ApplicationException(ExceptionType.COMMENT_NOT_FOUND));
         commentRepository.deleteById(id);
     }
+
+    public static Comparator<Comment> compareByDateDesc = (comment1, comment2) -> {
+
+        Date created_At1 = comment1.getCreated_at();
+        Date created_At2 = comment2.getCreated_at();
+
+        return created_At2.compareTo(created_At1);
+    };
 }

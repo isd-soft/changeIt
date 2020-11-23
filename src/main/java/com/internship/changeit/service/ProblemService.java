@@ -10,6 +10,14 @@ public interface ProblemService {
 
     List<Problem> getAllProblems();
 
+    List<Problem> sortProblemsByDateAsc();
+
+    List<Problem> sortProblemsByDateDesc();
+
+    List<Problem> sortProblemsByVoteAsc();
+
+    List<Problem> sortProblemsByVoteDesc();
+
     Problem getProblemById(Long id);
 
     Problem addProblem(Problem problem);
