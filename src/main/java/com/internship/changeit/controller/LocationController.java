@@ -3,7 +3,6 @@ package com.internship.changeit.controller;
 import com.internship.changeit.dto.LocationDto;
 import com.internship.changeit.mapper.LocationMapper;
 import com.internship.changeit.model.Location;
-import com.internship.changeit.service.LocationService;
 import com.internship.changeit.service.impl.LocationServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
