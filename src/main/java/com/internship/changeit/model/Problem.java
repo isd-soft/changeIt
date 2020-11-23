@@ -45,7 +45,7 @@ public class Problem {
     private District district;
 
     @Type(type = "org.hibernate.type.BinaryType")
-    private Byte[] image;
+    private byte[] image;
 
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();

@@ -8,6 +8,7 @@ import com.internship.changeit.service.ImageService;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,14 +23,16 @@ public class ImageServiceImpl implements ImageService {
     private final ProblemRepository problemRepository;
 
     @Override
-    public void saveImageFile(final Long problemId, final MultipartFile image) {
+    @Transactional
+    public void saveImageFile(final Long problemId, final MultipartFile file) {
         try {
             Problem problem = problemRepository.findById(problemId)
                     .orElseThrow(() -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
-            Byte[] byteObject = new Byte[image.getBytes().length];
+
+            byte[] byteObject = new byte[file.getBytes().length];
 
             int i = 0;
-            for (Byte b : image.getBytes()) {
+            for (byte b : file.getBytes()) {
                 byteObject[i++] = b;
             }
 
@@ -48,9 +51,7 @@ public class ImageServiceImpl implements ImageService {
 
         if(problem.getImage() != null){
             byte[] image = new byte[problem.getImage().length];
-
             int i = 0;
-
             for(Byte b : problem.getImage()){
                 image[i++] = b;
             }
@@ -62,6 +63,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    @Transactional
     public void deleteImage(final Long problemId) {
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
