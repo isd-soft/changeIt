@@ -1,6 +1,7 @@
 package com.internship.changeit.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class Problem {
     @ManyToOne
     @JoinColumn(name = "district_id")
     private District district;
+
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] image;
 
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
