@@ -23,7 +23,7 @@
         <flyway-maven-plugin.user>postgres</flyway-maven-plugin.user>
         <flyway-maven-plugin.password>password</flyway-maven-plugin.password>
         <flyway-maven-plugin.url>jdbc:postgresql://localhost:5432/changeit_db</flyway-maven-plugin.url>
-        <hibernate-ehcache-verison>5.4.6.Final</hibernate-ehcache-verison>
+        <hibernate-version>5.4.6.Final</hibernate-version>
     </properties>
 
     <dependencies>
@@ -38,10 +38,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -72,19 +68,17 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jcache</artifactId>
-            <version>${hibernate-ehcache-verison}</version>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate-version}</version>
         </dependency>
+        <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache</artifactId>
+        <version>2.10.6</version>
+    </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
