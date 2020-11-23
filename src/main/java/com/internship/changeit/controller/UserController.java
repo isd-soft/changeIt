@@ -100,7 +100,7 @@ public class UserController {
         return ResponseEntity.ok("Your password has been changed successful");
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<UserDto> getAllUsers(){
        return userService.getAllUsers().stream()
                .map(UserMapper.INSTANCE::toDto)

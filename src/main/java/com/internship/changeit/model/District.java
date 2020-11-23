@@ -18,7 +18,7 @@ public class District  {
     private Long district_id;
     private String districtName;
 
-    @OneToMany(mappedBy = "district", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
     @org.hibernate.annotations.Cache(
             usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Location> locations = new ArrayList<>();
