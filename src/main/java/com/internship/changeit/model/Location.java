@@ -1,6 +1,7 @@
 package com.internship.changeit.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "location")
 public class Location {
 
@@ -21,5 +23,7 @@ public class Location {
     private District district;
 
     @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Problem> problems = new ArrayList<>();
 }

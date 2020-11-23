@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -96,5 +98,12 @@ public class UserController {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         userService.saveUser(user);
         return ResponseEntity.ok("Your password has been changed successful");
+    }
+
+    @GetMapping
+    public List<UserDto> getAllUsers(){
+       return userService.getAllUsers().stream()
+               .map(UserMapper.INSTANCE::toDto)
+               .collect(Collectors.toList());
     }
 }
