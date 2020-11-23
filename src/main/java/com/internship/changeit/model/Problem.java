@@ -32,6 +32,9 @@ public class Problem {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Embedded
+    private Address address;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

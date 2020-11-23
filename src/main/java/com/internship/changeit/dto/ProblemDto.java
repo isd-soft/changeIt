@@ -1,5 +1,6 @@
 package com.internship.changeit.dto;
 
+import com.internship.changeit.model.Address;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ public class ProblemDto {
     private Date updated_at;
     private String status;
     private LocationDto location;
+    private Address address;
     private List<DomainDto> domains;
 
 }
