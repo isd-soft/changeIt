@@ -14,7 +14,7 @@ public class CommentVoteController {
 
     private final CommentVoteService commentVoteService;
 
-    @GetMapping("{problemId}/{userId}")
+    @GetMapping("/{commentId}/{userId}")
     CommentVoteDto getCommentVote(@PathVariable Long commentId, @PathVariable Long userId) {
 
         return CommentVoteMapper.INSTANCE.toDto(commentVoteService.getVote(commentId, userId));
