@@ -3,7 +3,9 @@ package com.internship.changeit.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,4 +30,6 @@ public class Comment {
     @JoinColumn(name = "problem_id")
     private Problem problem;
 
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+    private List<CommentVote> commentVotes = new ArrayList<>();
 }

@@ -1,6 +1,5 @@
 package com.internship.changeit.controller;
 
-
 import com.internship.changeit.dto.VoteDto;
 import com.internship.changeit.mapper.VoteMapper;
 import com.internship.changeit.model.Vote;

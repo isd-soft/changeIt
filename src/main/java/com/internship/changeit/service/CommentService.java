@@ -10,7 +10,11 @@ public interface CommentService {
 
     List<Comment> getByProblem(Long id);
 
+    Comment getCommentById(Long id);
+
     Comment saveComment(Comment comment);
+
+    Comment updateComment(Comment comment, Long id);
 
     void deleteComment(long id);
 }
