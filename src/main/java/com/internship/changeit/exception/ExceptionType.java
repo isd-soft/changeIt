@@ -16,7 +16,8 @@ public enum ExceptionType {
     INVALID_TOKEN("Invalid or expired token", HttpStatus.FORBIDDEN),
     DOMAIN_NOT_FOUND("Domain not found", HttpStatus.NOT_FOUND),
     LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND),
-    FILE_NOT_FOUND("Please select a file to upload", HttpStatus.NOT_FOUND);
+    FILE_NOT_FOUND("Please select a file to upload", HttpStatus.NOT_FOUND),
+    VOTE_NOT_FOUND("Vote not found", HttpStatus.NOT_FOUND);
 
     private final String message;
     private final HttpStatus httpStatus;

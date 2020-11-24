@@ -1,5 +1,7 @@
 package com.internship.changeit.service.impl;
 
+import com.internship.changeit.exception.ApplicationException;
+import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.CommentVote;
 import com.internship.changeit.repository.CommentVoteRepository;
 import com.internship.changeit.service.CommentVoteService;
@@ -40,5 +42,12 @@ public class CommentVoteServiceImpl implements CommentVoteService {
                 .stream()
                 .filter(vote -> vote.getComment().getComment_id().equals(commentId) && vote.getUser().getUser_id().equals(userId) )
                 .findAny().orElse(null);
+    }
+
+    @Override
+    public void deleteCommentVote(Long id) {
+        commentVoteRepository.findById(id).
+                orElseThrow(() -> new ApplicationException(ExceptionType.VOTE_NOT_FOUND));
+        commentVoteRepository.deleteById(id);
     }
 }
