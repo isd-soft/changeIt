@@ -9,6 +9,7 @@ import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +51,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment saveComment(Comment comment) {
         comment.setUser(userRepository.findByEmail(comment.getUser().getEmail()).get());
         comment.setVotes(0);
+        comment.setCreated_at(new Date());
         commentRepository.save(comment);
         return comment;
     }
