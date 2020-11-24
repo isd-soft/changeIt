@@ -1,6 +1,7 @@
 package com.internship.changeit.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Data
 @Entity
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "user_entity")
 public class User {
 
@@ -44,12 +46,18 @@ public class User {
     private VerificationToken verificationToken;
 
     @OneToMany(mappedBy = "user")
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Problem> problemsAdded = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.Cache(
+            usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Vote> votes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

@@ -5,6 +5,8 @@ import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.service.DomainService;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

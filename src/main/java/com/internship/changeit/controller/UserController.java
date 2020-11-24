@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -36,13 +38,19 @@ public class UserController {
     private final ApplicationEventPublisher eventPublisher;
     private final JavaMailSender mailSender;
 
+    @GetMapping
+    public UserDto getUser(@RequestBody final UserDto userDto) {
+        User user = UserMapper.INSTANCE.fromDto(userDto);
+        return UserMapper.INSTANCE.toDto(userService.getUserByEmail(user.getEmail()));
+    }
+
     @PostMapping("/register")
     public User registerUser(@Valid @RequestBody final UserDto userDto, final HttpServletRequest request) {
         final User user = UserMapper.INSTANCE.fromDto(userDto);
         if (userService.isEmailUnique(user.getEmail())) {
             user.setUserStatus(UserStatus.INACTIVE);
             userService.registerNewUser(user);
-            final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            final String appUrl = "http://" + request.getServerName() + ":" + "4200" + request.getContextPath();
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appUrl, user));
             return user;
         } else throw new ApplicationException(ExceptionType.USER_ALREADY_EXIST);
@@ -64,7 +72,7 @@ public class UserController {
         if (user != null) {
             final String token = UUID.randomUUID().toString();
             userService.createVerificationToken(user, token);
-            final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            final String appUrl = "http://" + request.getServerName() + ":" + "4200" + request.getContextPath();
             final SimpleMailMessage email = userService.constructResetPasswordEmail(appUrl, token, user);
             mailSender.send(email);
             Map<Object, Object> response = new HashMap<>();
@@ -90,5 +98,12 @@ public class UserController {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         userService.saveUser(user);
         return ResponseEntity.ok("Your password has been changed successful");
+    }
+
+    @GetMapping("/all")
+    public List<UserDto> getAllUsers(){
+       return userService.getAllUsers().stream()
+               .map(UserMapper.INSTANCE::toDto)
+               .collect(Collectors.toList());
     }
 }

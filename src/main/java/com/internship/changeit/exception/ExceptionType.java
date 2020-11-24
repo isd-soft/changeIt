@@ -15,8 +15,8 @@ public enum ExceptionType {
     EMAIL_NOT_VALID("No user founder with this email", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN("Invalid or expired token", HttpStatus.FORBIDDEN),
     DOMAIN_NOT_FOUND("Domain not found", HttpStatus.NOT_FOUND),
-    LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND);
-
+    LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND),
+    FILE_NOT_FOUND("Please select a file to upload", HttpStatus.NOT_FOUND);
 
     private final String message;
     private final HttpStatus httpStatus;
