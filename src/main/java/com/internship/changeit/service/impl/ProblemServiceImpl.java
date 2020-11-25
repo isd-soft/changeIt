@@ -8,7 +8,6 @@ import com.internship.changeit.model.Status;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -121,7 +120,6 @@ public class ProblemServiceImpl implements ProblemService {
 
         Integer votesCount1 = problem1.getVotesCount();
         Integer votesCount2 = problem2.getVotesCount();
-
         return votesCount1.compareTo(votesCount2);
     };
 

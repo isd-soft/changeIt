@@ -29,12 +29,12 @@ public class ImageController {
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @GetMapping("{problemId}/image")
+    @GetMapping("/{problemId}/image")
     public void renderProblemImage(@PathVariable final String problemId, final HttpServletResponse response) throws IOException {
         imageService.renderImageFromDb(Long.valueOf(problemId), response);
     }
 
-    @DeleteMapping("{problemId}/image")
+    @DeleteMapping("/{problemId}/image")
     public ResponseEntity<?> deleteProblemImage(@PathVariable final String problemId){
         imageService.deleteImage(Long.valueOf(problemId));
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
