@@ -25,7 +25,6 @@ public class UserLogoController {
         if(file.isEmpty()) {
             throw new ApplicationException(ExceptionType.FILE_NOT_FOUND);
         }
-
         userLogoService.saveUserLogo(Long.valueOf(userId), file);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }

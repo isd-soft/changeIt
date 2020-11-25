@@ -45,7 +45,7 @@ public class UserLogoServiceImpl implements UserLogoService {
     }
 
     @Override
-    public  void renderUserLogoFromDb(final Long userId, final HttpServletResponse response) throws IOException {
+    public void renderUserLogoFromDb(final Long userId, final HttpServletResponse response) throws IOException {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
 
