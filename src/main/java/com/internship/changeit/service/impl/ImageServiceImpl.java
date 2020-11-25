@@ -67,7 +67,7 @@ public class ImageServiceImpl implements ImageService {
 
 
     @Override
-    public List<ImageDto> renderImageFromDb(final Long problemId, final HttpServletResponse response) {
+    public List<ImageDto> getImages(final Long problemId) {
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
 
