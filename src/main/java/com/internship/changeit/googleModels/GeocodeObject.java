@@ -10,7 +10,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GeocodeObject {
     @JsonProperty("place_id")
-   private String placeId;
+    private String placeId;
     @JsonProperty("address_components")
     private List<GeoAddress> geoAddressComponents;
     @JsonProperty("formatted_address")

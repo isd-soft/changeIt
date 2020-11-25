@@ -99,11 +99,4 @@ public class UserController {
         userService.saveUser(user);
         return ResponseEntity.ok("Your password has been changed successful");
     }
-
-    @GetMapping("/all")
-    public List<UserDto> getAllUsers(){
-       return userService.getAllUsers().stream()
-               .map(UserMapper.INSTANCE::toDto)
-               .collect(Collectors.toList());
-    }
 }
