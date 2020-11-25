@@ -15,7 +15,6 @@ import java.util.List;
 public class CommentVoteServiceImpl implements CommentVoteService {
 
     private final CommentVoteRepository commentVoteRepository;
-    private List<CommentVote> commentVotes = commentVoteRepository.findAll();
 
     @Override
     public CommentVote saveVote(CommentVote commentVote) {
