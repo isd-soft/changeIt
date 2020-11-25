@@ -10,5 +10,5 @@ public interface CommentVoteService {
 
     CommentVote getVote(Long commentId, Long userId);
 
-    void deleteCommentVote(Long id);
+    void deleteCommentVote(Long commentId, Long userId);
 }

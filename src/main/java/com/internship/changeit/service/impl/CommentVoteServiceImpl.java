@@ -8,11 +8,14 @@ import com.internship.changeit.service.CommentVoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentVoteServiceImpl implements CommentVoteService {
 
     private final CommentVoteRepository commentVoteRepository;
+    private List<CommentVote> commentVotes = commentVoteRepository.findAll();
 
     @Override
     public CommentVote saveVote(CommentVote commentVote) {
@@ -45,9 +48,10 @@ public class CommentVoteServiceImpl implements CommentVoteService {
     }
 
     @Override
-    public void deleteCommentVote(Long id) {
-        commentVoteRepository.findById(id).
+    public void deleteCommentVote(Long commentId, Long userId) {
+        CommentVote commentVote = getVote(commentId, userId);
+        commentVoteRepository.findById(commentVote.getComment_vote_id()).
                 orElseThrow(() -> new ApplicationException(ExceptionType.VOTE_NOT_FOUND));
-        commentVoteRepository.deleteById(id);
+        commentVoteRepository.deleteById(commentVote.getComment_vote_id());
     }
 }

@@ -25,8 +25,8 @@ public class CommentVoteController {
         return CommentVoteMapper.INSTANCE.toDto(commentVoteService.saveVote(commentVote));
     }
 
-    @DeleteMapping("/{id}")
-    void unvote(@PathVariable Long id){
-        commentVoteService.deleteCommentVote(id);
+    @DeleteMapping("/{commentId}/{userId}")
+    void unVote(@PathVariable Long commentId, @PathVariable Long userId){
+        commentVoteService.deleteCommentVote(commentId, userId);
     }
 }
