@@ -38,8 +38,8 @@ public class ImageController {
     }
 
     @GetMapping(value = "/{problemId}/image")
-    public List<ImageDto> renderProblemImage(@PathVariable final String problemId, final HttpServletResponse response) throws IOException {
-       return imageService.renderImageFromDb(Long.valueOf(problemId), response);
+    public List<ImageDto> getAllImages(@PathVariable final String problemId) throws IOException {
+       return imageService.getImages(Long.valueOf(problemId));
     }
 
     @DeleteMapping("/{problemId}/image/{imageId}")
