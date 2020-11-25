@@ -94,6 +94,7 @@ public class ProblemController {
     @PostMapping
     ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
+
         problemService.addProblem(problem);
         newProblemDto.setProblem_id(problem.getProblem_id());
         newProblemDto.setCreated_at(problem.getCreated_at());

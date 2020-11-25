@@ -16,7 +16,6 @@ public class CommentVoteController {
 
     @GetMapping("/{commentId}/{userId}")
     CommentVoteDto getCommentVote(@PathVariable Long commentId, @PathVariable Long userId) {
-
         return CommentVoteMapper.INSTANCE.toDto(commentVoteService.getVote(commentId, userId));
     }
 
@@ -24,5 +23,10 @@ public class CommentVoteController {
     CommentVoteDto vote(@RequestBody CommentVoteDto commentVoteDto) {
         CommentVote commentVote = CommentVoteMapper.INSTANCE.fromDto(commentVoteDto);
         return CommentVoteMapper.INSTANCE.toDto(commentVoteService.saveVote(commentVote));
+    }
+
+    @DeleteMapping("/{commentId}/{userId}")
+    void unVote(@PathVariable Long commentId, @PathVariable Long userId){
+        commentVoteService.deleteCommentVote(commentId, userId);
     }
 }

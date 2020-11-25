@@ -66,6 +66,7 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Problem addProblem(Problem problem) {
+//        System.out.println(problem);
         List<Domain> domains = new ArrayList<>();
         problem.getDomains().forEach(x -> {
             Domain domain = domainRepository.getOne(x.getDomain_id());
@@ -75,6 +76,7 @@ public class ProblemServiceImpl implements ProblemService {
         });
         problem.setDistrict(problem.getLocation().getDistrict());
         problem.setDomains(domains);
+
         problem.setCreated_at(new Date());
         problem.setUpdated_at(new Date());
         problemRepository.save(problem);

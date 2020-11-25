@@ -2,6 +2,7 @@ package com.internship.changeit.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -62,4 +63,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<CommentVote> commentVotes = new ArrayList<>();
+
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] userLogo;
 }

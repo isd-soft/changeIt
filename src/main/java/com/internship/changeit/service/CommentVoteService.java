@@ -9,4 +9,6 @@ public interface CommentVoteService {
     Long getByComment(Long id);
 
     CommentVote getVote(Long commentId, Long userId);
+
+    void deleteCommentVote(Long commentId, Long userId);
 }
