@@ -17,7 +17,8 @@ public enum ExceptionType {
     DOMAIN_NOT_FOUND("Domain not found", HttpStatus.NOT_FOUND),
     LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND),
     FILE_NOT_FOUND("Please select a file to upload", HttpStatus.NOT_FOUND),
-    VOTE_NOT_FOUND("Vote not found", HttpStatus.NOT_FOUND);
+    VOTE_NOT_FOUND("Vote not found", HttpStatus.NOT_FOUND),
+    IMAGE_NUMBER_EXCEEDED("Maximum number of files is 5", HttpStatus.EXPECTATION_FAILED);
 
     private final String message;
     private final HttpStatus httpStatus;

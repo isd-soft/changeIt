@@ -4,7 +4,6 @@ import lombok.Data;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,8 +49,8 @@ public class Problem {
     @JoinColumn(name = "district_id")
     private District district;
 
-    @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] image;
+    @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Image> images =new ArrayList<>();
 
     @OneToMany(mappedBy = "problem", fetch = FetchType.LAZY)
     @org.hibernate.annotations.Cache(
