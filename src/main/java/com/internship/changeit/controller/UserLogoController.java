@@ -20,8 +20,7 @@ public class UserLogoController {
     private final UserLogoService userLogoService;
 
     @PostMapping("/{userId}/user_logo")
-    public ResponseEntity<?> uploadUserLogo(
-            @PathVariable final String userId, @RequestParam("imageFile") final MultipartFile file){
+    public ResponseEntity<?> uploadUserLogo(@PathVariable final String userId, @RequestParam("imageFile") final MultipartFile file){
         if(file.isEmpty()) {
             throw new ApplicationException(ExceptionType.FILE_NOT_FOUND);
         }

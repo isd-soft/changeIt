@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +28,9 @@ public class ImageServiceImpl implements ImageService {
     @Override
     @Transactional
     public void uploadImage(final Problem problem, final MultipartFile file) {
+        if(file.getContentType() == null)
+            throw new ApplicationException(ExceptionType.FILE_NOT_FOUND);
+
         try {
             byte[] byteObject = new byte[file.getBytes().length];
             int i = 0;
@@ -68,18 +70,18 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public List<ImageDto> getImages(final Long problemId) {
-        Problem problem = problemRepository.findById(problemId)
+        final Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
 
         return problem.getImages().stream()
-                                  .map(ImageMapper.INSTANCE::toDto)
-                                  .collect(Collectors.toList());
+                .map(ImageMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public void deleteImage(final Long problemId, final Long imageId) {
-        Problem problem = problemRepository.findById(problemId)
+        final Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
         this.imageRepository.deleteById(imageId);
 
