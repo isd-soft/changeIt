@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -38,8 +37,8 @@ public class ImageController {
     }
 
     @GetMapping(value = "/{problemId}/image")
-    public List<ImageDto> renderProblemImage(@PathVariable final String problemId, final HttpServletResponse response) throws IOException {
-       return imageService.renderImageFromDb(Long.valueOf(problemId), response);
+    public List<ImageDto> getAllImages(@PathVariable final String problemId) throws IOException {
+       return imageService.getImages(Long.valueOf(problemId));
     }
 
     @DeleteMapping("/{problemId}/image/{imageId}")

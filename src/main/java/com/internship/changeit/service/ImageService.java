@@ -4,7 +4,6 @@ import com.internship.changeit.dto.ImageDto;
 import com.internship.changeit.model.Problem;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface ImageService {
 
     void updateImage(final Long imageId, final MultipartFile file);
 
-    List<ImageDto> renderImageFromDb(final Long problemId, final HttpServletResponse response) throws IOException;
+    List<ImageDto> getImages(final Long problemId) throws IOException;
 
     void deleteImage(final Long problemId, final Long imageId);
 
