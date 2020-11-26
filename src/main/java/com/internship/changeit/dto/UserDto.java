@@ -12,4 +12,5 @@ public class UserDto {
     private String role;
     private String userStatus;
     private String password;
+    private byte[] userLogo;
 }

@@ -2,7 +2,6 @@ package com.internship.changeit.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;

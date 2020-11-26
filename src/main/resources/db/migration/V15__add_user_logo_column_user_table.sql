@@ -1,2 +1,10 @@
- ALTER TABLE user_entity
-    ADD user_logo BYTEA;
+
+ CREATE TABLE user_logo(
+      ID      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+      USER_ID  BIGINT,
+      USER_LOGO_FILE BYTEA
+  );
+
+  ALTER TABLE user_logo
+     ADD CONSTRAINT user_id_fk FOREIGN KEY (USER_ID)
+         REFERENCES user_entity;
