@@ -5,9 +5,11 @@ import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Problem;
+import com.internship.changeit.model.User;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ImageService;
 import com.internship.changeit.service.UserLogoService;
+import com.internship.changeit.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -26,6 +30,7 @@ public class ImageController {
     private final ImageService imageService;
     private final ProblemRepository problemRepository;
     private final UserLogoService userLogoService;
+    private final UserService userService;
 
     @PostMapping("/problem/{problemId}/image")
     public ResponseEntity<?> uploadProblemImages(
@@ -68,8 +73,12 @@ public class ImageController {
     }
 
     @GetMapping(value = "user/{userId}/user_logo")
-    public UserDto getUserLogo(@PathVariable final String userId) throws IOException {
-        return userLogoService.getUserLogo(Long.valueOf(userId));
+    public ResponseEntity<?> getUserLogo(@PathVariable final String userId) throws IOException {
+        final User user  = this.userService.getUserById(Long.valueOf(userId));
+        if(user == null) throw new ApplicationException(ExceptionType.USER_NOT_FOUND);
+        final Map<Object, Object> response = new HashMap<>();
+        response.put("logo", user.getUserLogo());
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/user/{userId}/user_logo")
