@@ -3,9 +3,7 @@ package com.internship.changeit.service.impl;
 import com.internship.changeit.dto.UserLogoDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
-import com.internship.changeit.mapper.ImageMapper;
 import com.internship.changeit.mapper.UserLogoMapper;
-import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.User;
 import com.internship.changeit.model.UserLogo;
 import com.internship.changeit.repository.UserLogoRepository;
@@ -17,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -48,12 +44,10 @@ public class UserLogoServiceImpl implements UserLogoService {
     }
 
     @Override
-    public List<UserLogoDto> getUserLogo(Long userId){
+    public UserLogoDto getUserLogo(Long userId){
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
-        return user.getUserLogos().stream()
-                .map(UserLogoMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
+        return UserLogoMapper.INSTANCE.toDto(user.getUserLogo());
     }
 
     @Override
@@ -86,9 +80,5 @@ public class UserLogoServiceImpl implements UserLogoService {
         } catch (IOException e) {
             e.getMessage();
         }
-    }
-
-    public boolean isUserLogoNumberExceeded(final User user, final Integer numberOfUserLogos) {
-        return user.getUserLogos().size() > 1 || (user.getUserLogos().size() + numberOfUserLogos) > 1;
     }
 }

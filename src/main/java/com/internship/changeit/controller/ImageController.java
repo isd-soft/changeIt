@@ -59,7 +59,7 @@ public class ImageController {
     }
 
     @GetMapping(value = "/user/{userId}/user_logo")
-    public List<UserLogoDto> getUserLogo(@PathVariable final String userId) throws IOException {
+    public UserLogoDto getUserLogo(@PathVariable final String userId) throws IOException {
         return userLogoService.getUserLogo(Long.valueOf(userId));
     }
 
