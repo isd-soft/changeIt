@@ -1,18 +1,16 @@
 package com.internship.changeit.service;
 
-import com.internship.changeit.dto.UserLogoDto;
-import com.internship.changeit.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface UserLogoService {
 
-    void updateUserLogo(final Long userId, final MultipartFile file);
+    void saveUserLogo(final Long userId, final MultipartFile file);
 
-    UserLogoDto getUserLogo(final Long userId) throws IOException;
+    void deleteUserLogo(final Long userId);
 
-    void deleteUserLogo(final Long userId, final Long userLogoId);
+    void renderImageFromDb(final Long userId, final HttpServletResponse response) throws IOException;
 
-    void uploadUserLogo(final User user, final MultipartFile file);
 }
