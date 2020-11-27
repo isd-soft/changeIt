@@ -1,15 +1,18 @@
 package com.internship.changeit.controller;
 
 
+import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
+import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.User;
 import com.internship.changeit.model.UserStatus;
 import com.internship.changeit.model.VerificationToken;
 import com.internship.changeit.repository.VerificationTokenRepo;
 import com.internship.changeit.service.UserService;
+import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.registrationService.OnRegistrationCompleteEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -37,6 +40,8 @@ public class UserController {
     private final VerificationTokenRepo verificationTokenRepo;
     private final ApplicationEventPublisher eventPublisher;
     private final JavaMailSender mailSender;
+    private final CommentServiceImpl commentService;
+
 
     @GetMapping
     public UserDto getUser(@RequestBody final UserDto userDto) {
@@ -98,5 +103,20 @@ public class UserController {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         userService.saveUser(user);
         return ResponseEntity.ok("Your password has been changed successful");
+    }
+
+    @GetMapping("/all")
+    public List<UserDto> getAllUsers(){
+       return userService.getAllUsers().stream()
+               .map(UserMapper.INSTANCE::toDto)
+               .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/comments")
+    List<CommentDto> getCommentsByUser(@PathVariable Long id) {
+        return commentService.getByUser(id)
+                .stream()
+                .map(CommentMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 }

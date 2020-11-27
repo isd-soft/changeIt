@@ -41,6 +41,15 @@ public class CommentServiceImpl implements CommentService {
                 .collect(Collectors.toList());
     }
 
+    public List<Comment> getByUser(Long id) {
+        List<Comment> sortedComments = this.getAllComments();
+        sortedComments.sort(compareByDateDesc);
+        return sortedComments
+                .stream()
+                .filter(comment -> comment.getUser().getUser_id().equals(id))
+                .collect(Collectors.toList());
+    }
+
     @Override
     public Comment getCommentById(Long id) {
         return commentRepository.findById(id).
