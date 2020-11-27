@@ -7,6 +7,7 @@ import com.internship.changeit.model.Problem;
 import com.internship.changeit.repository.CommentRepository;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.CommentService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAll();
     }
 
+    @Override
     public List<Comment> getByProblem(Long id) {
         List<Comment> sortedComments = this.getAllComments();
         sortedComments.sort(compareByDateDesc);
@@ -41,6 +43,7 @@ public class CommentServiceImpl implements CommentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<Comment> getByUser(Long id) {
         List<Comment> sortedComments = this.getAllComments();
         sortedComments.sort(compareByDateDesc);
@@ -79,6 +82,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('comments:delete')")
     public void deleteComment(long id) {
         commentRepository.findById(id).
                 orElseThrow(() -> new ApplicationException(ExceptionType.COMMENT_NOT_FOUND));

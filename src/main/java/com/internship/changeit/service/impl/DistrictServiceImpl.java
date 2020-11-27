@@ -5,6 +5,7 @@ import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.District;
 import com.internship.changeit.repository.DistrictRepository;
 import com.internship.changeit.service.DistrictService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +26,14 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public District saveDistrict(District district) {
         districtRepository.save(district);
         return district;
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public District updateDistrict(District newDistrict, Long id) {
 
         Optional<District> optionalDistrict = districtRepository.findById(id);
@@ -44,6 +47,7 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public void deleteDistrict(long id) {
         districtRepository.findById(id).
                 orElseThrow(() -> new ApplicationException(ExceptionType.DISTRICT_NOT_FOUND));
