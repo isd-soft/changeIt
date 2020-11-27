@@ -2,6 +2,7 @@ package com.internship.changeit.controller;
 
 
 import com.internship.changeit.dto.CommentDto;
+import com.internship.changeit.dto.ResetPasswordDetailsDTO;
 import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
@@ -98,19 +99,16 @@ public class UserController {
 
 
     @PostMapping("/savePassword")
-    public ResponseEntity<?> resetPassword(@RequestParam("password") final String password,
-                                           @RequestParam("token") final String token,
-                                           @RequestParam("id") final long id,
-                                           @RequestParam("passwordConfirmation") final String passwordConfirmation) {
-        if (!password.equals(passwordConfirmation))
+    public ResponseEntity<?> resetPassword(@RequestBody final ResetPasswordDetailsDTO resetDetails) {
+        if (!resetDetails.getPassword().equals(resetDetails.getPasswordConfirmation()))
             throw new ApplicationException(ExceptionType.INVALID_ARGUMENTS);
-        final VerificationToken verificationToken = verificationTokenRepo.findByToken(token);
+        final VerificationToken verificationToken = verificationTokenRepo.findByToken(resetDetails.getToken());
         final User user = verificationToken.getUser();
 
-        if(user == null || user.getUser_id() != id) {
+        if(user == null || user.getUser_id() != resetDetails.getId()) {
             throw new ApplicationException(ExceptionType.USER_NOT_FOUND);
         }
-        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setPassword(new BCryptPasswordEncoder().encode(resetDetails.getPassword()));
         userService.saveUser(user);
         return ResponseEntity.ok("Your password has been changed successful");
     }
