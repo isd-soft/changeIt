@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,7 @@ public class UserController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('DEVELOPER:READ')")
     public UserDto getUser(@RequestBody final UserDto userDto) {
         User user = UserMapper.INSTANCE.fromDto(userDto);
         return UserMapper.INSTANCE.toDto(userService.getUserByEmail(user.getEmail()));
@@ -69,6 +71,14 @@ public class UserController {
         user.setUserStatus(UserStatus.ACTIVE);
         userService.saveUser(user);
         return new ResponseEntity<>("You account is confirmed", HttpStatus.OK);
+    }
+
+    @GetMapping("/verificationToken")
+    public ResponseEntity<?> getVerificationToken(@RequestParam final String email) {
+      final VerificationToken verificationToken = this.userService.getVerificationToken(email);
+      Map<Object, Object> map = new HashMap<>();
+      map.put("token", verificationToken.getToken());
+      return ResponseEntity.ok(map);
     }
 
     @PostMapping("/resetPassword")
@@ -113,7 +123,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/comments")
-    List<CommentDto> getCommentsByUser(@PathVariable Long id) {
+    public List<CommentDto> getCommentsByUser(@PathVariable Long id) {
         return commentService.getByUser(id)
                 .stream()
                 .map(CommentMapper.INSTANCE::toDto)

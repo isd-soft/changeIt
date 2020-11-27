@@ -12,14 +12,14 @@ public enum ExceptionType {
     INVALID_ARGUMENTS("Provided inputs are not valid", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED_USER("Authentication is required to access the resource", HttpStatus.UNAUTHORIZED),
     DISTRICT_NOT_FOUND("District not found", HttpStatus.NOT_FOUND),
-    EMAIL_NOT_VALID("No user founder with this email", HttpStatus.BAD_REQUEST),
+    EMAIL_NOT_VALID("No user found with this email", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN("Invalid or expired token", HttpStatus.FORBIDDEN),
     DOMAIN_NOT_FOUND("Domain not found", HttpStatus.NOT_FOUND),
     LOCATION_NOT_FOUND("Location not found", HttpStatus.NOT_FOUND),
     FILE_NOT_FOUND("Please select a file to upload", HttpStatus.NOT_FOUND),
     VOTE_NOT_FOUND("Vote not found", HttpStatus.NOT_FOUND),
     IMAGE_NUMBER_EXCEEDED("Maximum number of files is 5", HttpStatus.EXPECTATION_FAILED),
-    FILE_IS_TOO_LARGE("File is to large provide up to 5 mb", HttpStatus.PAYLOAD_TOO_LARGE);
+    FILE_IS_TOO_LARGE("File is too large, please provide up to 5 mb", HttpStatus.PAYLOAD_TOO_LARGE);
 
     private final String message;
     private final HttpStatus httpStatus;

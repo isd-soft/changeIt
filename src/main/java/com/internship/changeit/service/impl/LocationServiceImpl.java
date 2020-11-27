@@ -5,6 +5,7 @@ import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Location;
 import com.internship.changeit.repository.LocationRepository;
 import com.internship.changeit.service.LocationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,25 +26,26 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public Location saveLocation(Location location) {
         locationRepository.save(location);
         return location;
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public Location updateLocation(Location newLocation, Long id) {
 
         Optional<Location> optionalLocation = locationRepository.findById(id);
 
         if(optionalLocation.isPresent()){
-            Location updatable = optionalLocation.get();
-            updatable.setLocationName(newLocation.getLocationName());
-            locationRepository.save(updatable);
-            return updatable;
+            locationRepository.save(newLocation);
+            return newLocation;
         } else throw new ApplicationException(ExceptionType.LOCATION_NOT_FOUND);
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public void deleteLocation(long id) {
         locationRepository.findById(id).
                 orElseThrow(() -> new ApplicationException(ExceptionType.LOCATION_NOT_FOUND));

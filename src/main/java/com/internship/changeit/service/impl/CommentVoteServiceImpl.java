@@ -6,6 +6,7 @@ import com.internship.changeit.model.CommentVote;
 import com.internship.changeit.repository.CommentVoteRepository;
 import com.internship.changeit.service.CommentVoteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

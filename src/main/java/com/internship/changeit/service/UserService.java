@@ -2,6 +2,7 @@ package com.internship.changeit.service;
 
 import com.internship.changeit.model.User;
 import com.internship.changeit.model.UserStatus;
+import com.internship.changeit.model.VerificationToken;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public interface UserService {
     void registerNewUser(User user);
 
     void createVerificationToken(User user, String token);
+
+    VerificationToken getVerificationToken(final String email);
 
     SimpleMailMessage constructResetPasswordEmail(final String contextPath, final String token, final User user);
 

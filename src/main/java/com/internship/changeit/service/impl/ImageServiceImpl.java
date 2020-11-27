@@ -27,6 +27,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional
+
     public void uploadImage(final Problem problem, final MultipartFile file) {
         if(file.getContentType() == null)
             throw new ApplicationException(ExceptionType.FILE_NOT_FOUND);
