@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public enum Role {
     USER(Set.of(Permission.VOTES_DELETE)),
-
     ADMIN(Set.of(Permission.COMMENTS_DELETE, Permission.USER_CRUD, Permission.VOTES_DELETE,
             Permission.PROBLEM_PROPERTIES_CRUD, Permission.PROBLEM_PROPERTIES_READ));
 

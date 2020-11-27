@@ -12,6 +12,5 @@ public enum Permission {
     PROBLEM_PROPERTIES_CRUD("problem_properties:CRUD"),
     USER_CRUD("user:crud");
 
-
     private final String permission;
 }
