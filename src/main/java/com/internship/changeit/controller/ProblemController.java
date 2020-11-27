@@ -2,8 +2,10 @@ package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.ProblemDto;
+import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
+import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.service.ImageService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
@@ -77,6 +79,11 @@ public class ProblemController {
                 .stream()
                 .map(CommentMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/user")
+    UserDto getUserCreator(@PathVariable Long id) {
+        return UserMapper.INSTANCE.toDto(problemService.getProblemById(id).getUser());
     }
 
     @GetMapping("/{id}/votes")
