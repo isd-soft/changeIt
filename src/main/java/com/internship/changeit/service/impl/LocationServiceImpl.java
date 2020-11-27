@@ -36,10 +36,8 @@ public class LocationServiceImpl implements LocationService {
         Optional<Location> optionalLocation = locationRepository.findById(id);
 
         if(optionalLocation.isPresent()){
-            Location updatable = optionalLocation.get();
-            updatable.setLocationName(newLocation.getLocationName());
-            locationRepository.save(updatable);
-            return updatable;
+            locationRepository.save(newLocation);
+            return newLocation;
         } else throw new ApplicationException(ExceptionType.LOCATION_NOT_FOUND);
     }
 
