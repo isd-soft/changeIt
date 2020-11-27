@@ -2,6 +2,7 @@ package com.internship.changeit.service.impl;
 
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
+import com.internship.changeit.model.Comment;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Status;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -150,4 +152,12 @@ public class ProblemServiceImpl implements ProblemService {
 
         return created_At2.compareTo(created_At1);
     };
+
+    public List<Problem> getByUser(Long id) {
+        List<Problem> problems = this.getAllProblems();
+        return problems
+                .stream()
+                .filter(problem -> problem.getUser().getUser_id().equals(id))
+                .collect(Collectors.toList());
+    }
 }

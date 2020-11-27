@@ -3,10 +3,12 @@ package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.ResetPasswordDetailsDTO;
+import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.mapper.CommentMapper;
+import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.User;
 import com.internship.changeit.model.UserStatus;
@@ -14,6 +16,7 @@ import com.internship.changeit.model.VerificationToken;
 import com.internship.changeit.repository.VerificationTokenRepo;
 import com.internship.changeit.service.UserService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
+import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.registrationService.OnRegistrationCompleteEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -43,6 +46,7 @@ public class UserController {
     private final ApplicationEventPublisher eventPublisher;
     private final JavaMailSender mailSender;
     private final CommentServiceImpl commentService;
+    private final ProblemServiceImpl problemService;
 
 
     @GetMapping
@@ -127,4 +131,13 @@ public class UserController {
                 .map(CommentMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
     }
+    @GetMapping("/{id}/problems")
+    List<ProblemDto> getProblemsByUser(@PathVariable Long id) {
+        return problemService.getByUser(id)
+                .stream()
+                .map(ProblemMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+
 }
