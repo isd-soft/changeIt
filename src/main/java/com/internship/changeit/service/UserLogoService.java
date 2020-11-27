@@ -1,9 +1,7 @@
 package com.internship.changeit.service;
 
+import com.internship.changeit.dto.UserDto;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public interface UserLogoService {
 
@@ -11,6 +9,6 @@ public interface UserLogoService {
 
     void deleteUserLogo(final Long userId);
 
-    void renderImageFromDb(final Long userId, final HttpServletResponse response) throws IOException;
+    UserDto getUserLogo(final Long userId);
 
 }

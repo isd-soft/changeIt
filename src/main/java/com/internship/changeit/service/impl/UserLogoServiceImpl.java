@@ -1,7 +1,9 @@
 package com.internship.changeit.service.impl;
 
+import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
+import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.User;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.UserLogoService;
@@ -53,22 +55,10 @@ public class UserLogoServiceImpl implements UserLogoService {
     }
 
     @Override
-    public void renderImageFromDb(Long userId, HttpServletResponse response) throws IOException {
+    public UserDto getUserLogo(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
-
-        if (user.getUserLogo() != null) {
-            byte[] userLogo = new byte[user.getUserLogo().length];
-            int i = 0;
-            for (Byte b : user.getUserLogo()) {
-                userLogo[i++] = b;
-            }
-
-            response.setContentType("image/jpeg");
-            InputStream inputStream = new ByteArrayInputStream(userLogo);
-            IOUtils.copy(inputStream, response.getOutputStream());
-        }
+        return UserMapper.INSTANCE.toDto(user);
     }
-
 }
 
