@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public enum Role {
-    USER(Set.of(Permission.PROBLEMS_READ, Permission.PROBLEMS_WRITE)),
-    MANAGER(Set.of(Permission.PROBLEMS_READ, Permission.PROBLEMS_WRITE)),
-    ADMIN(Set.of(Permission.PROBLEMS_READ, Permission.PROBLEMS_WRITE, Permission.PROBLEMS_DELETE));
+    USER(Set.of(Permission.VOTES_DELETE)),
+    ADMIN(Set.of(Permission.COMMENTS_DELETE, Permission.USER_CRUD, Permission.VOTES_DELETE,
+            Permission.PROBLEM_PROPERTIES_CRUD, Permission.PROBLEM_PROPERTIES_READ));
 
     private final Set<Permission> permissions;
 
@@ -21,5 +21,4 @@ public enum Role {
                                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
                                .collect(Collectors.toSet());
     }
-
 }

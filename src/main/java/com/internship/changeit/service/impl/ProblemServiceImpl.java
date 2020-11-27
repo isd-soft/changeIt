@@ -8,6 +8,7 @@ import com.internship.changeit.model.Status;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -65,7 +66,6 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Problem addProblem(Problem problem) {
-//        System.out.println(problem);
         List<Domain> domains = new ArrayList<>();
         problem.getDomains().forEach(x -> {
             Domain domain = domainRepository.getOne(x.getDomain_id());
@@ -101,6 +101,7 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public void deleteProblem(Long id) {
         Optional<Problem> problem = problemRepository.findById(id);
 
@@ -110,6 +111,7 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public Problem updateProblemStatus(Long id, Status status) {
         Problem problem = problemRepository.findById(id).orElseThrow(
                 () -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));

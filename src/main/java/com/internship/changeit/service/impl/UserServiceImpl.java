@@ -11,10 +11,12 @@ import com.internship.changeit.repository.VerificationTokenRepo;
 import com.internship.changeit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder encoder;
 
     @Override
+    @PreAuthorize("hasAnyAuthority('user:crud')")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -41,6 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('user:crud')")
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
@@ -71,6 +75,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public VerificationToken getVerificationToken(final String email) {
+        final User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
+
+        final VerificationToken verificationToken = new VerificationToken();
+        final String token = UUID.randomUUID().toString();
+        verificationToken.setToken(token);
+        verificationToken.setUser(user);
+        verificationTokenRepo.save(verificationToken);
+
+        return verificationToken;
+    }
+
+    @Override
     public SimpleMailMessage constructResetPasswordEmail(final String contextPath, final String token, final User user) {
         final String url = contextPath + "/user/savePassword?id=" + user.getUser_id() + "&token=" + token;
         final SimpleMailMessage email = new SimpleMailMessage();
@@ -79,7 +97,9 @@ public class UserServiceImpl implements UserService {
         email.setText("Please open the following URL to reset your password: \r\n" + url);
         return email;
     }
-  
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('user:crud')")
     public User updateUserStatus(final Long id, final UserStatus userStatus) {
         final User user = this.userRepository.findById(id).orElseThrow(
                 () -> new ApplicationException(ExceptionType.USER_NOT_FOUND));

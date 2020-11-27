@@ -11,6 +11,7 @@ import com.internship.changeit.model.UserStatus;
 import com.internship.changeit.service.ProblemService;
 import com.internship.changeit.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
