@@ -4,6 +4,7 @@ import com.internship.changeit.dto.DomainDto;
 import com.internship.changeit.mapper.DomainMapper;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.service.DomainService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

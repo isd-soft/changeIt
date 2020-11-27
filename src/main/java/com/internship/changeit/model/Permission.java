@@ -6,9 +6,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Permission {
-    PROBLEMS_WRITE("problems:write"),
-    PROBLEMS_READ("problems:read"),
-    PROBLEMS_DELETE("problems:delete");
+    COMMENTS_DELETE("comments:delete"),
+    VOTES_DELETE("delete:vote"),
+    PROBLEM_PROPERTIES_READ("problem_properties:read"),
+    PROBLEM_PROPERTIES_CRUD("problem_properties:CRUD"),
+    USER_CRUD("user:crud");
+
 
     private final String permission;
 }
