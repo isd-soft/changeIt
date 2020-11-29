@@ -2,15 +2,19 @@ package com.internship.changeit.service.impl;
 
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
+import com.internship.changeit.model.Comment;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Status;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Service
 public class ProblemServiceImpl implements ProblemService {
@@ -73,6 +77,7 @@ public class ProblemServiceImpl implements ProblemService {
         });
         problem.setDistrict(problem.getLocation().getDistrict());
         problem.setDomains(domains);
+
         problem.setCreated_at(new Date());
         problem.setUpdated_at(new Date());
         problemRepository.save(problem);
@@ -98,6 +103,7 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public void deleteProblem(Long id) {
         Optional<Problem> problem = problemRepository.findById(id);
 
@@ -107,6 +113,7 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public Problem updateProblemStatus(Long id, Status status) {
         Problem problem = problemRepository.findById(id).orElseThrow(
                 () -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
@@ -119,7 +126,6 @@ public class ProblemServiceImpl implements ProblemService {
 
         Integer votesCount1 = problem1.getVotesCount();
         Integer votesCount2 = problem2.getVotesCount();
-
         return votesCount1.compareTo(votesCount2);
     };
 
@@ -146,4 +152,12 @@ public class ProblemServiceImpl implements ProblemService {
 
         return created_At2.compareTo(created_At1);
     };
+
+    public List<Problem> getByUser(Long id) {
+        List<Problem> problems = this.getAllProblems();
+        return problems
+                .stream()
+                .filter(problem -> problem.getUser().getUser_id().equals(id))
+                .collect(Collectors.toList());
+    }
 }

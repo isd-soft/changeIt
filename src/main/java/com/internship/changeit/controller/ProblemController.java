@@ -2,10 +2,12 @@ package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.ProblemDto;
+import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
+import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.Problem;
-import com.internship.changeit.repository.DomainRepository;
+import com.internship.changeit.service.ImageService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
@@ -21,13 +23,14 @@ public class ProblemController {
     private final ProblemServiceImpl problemService;
     private final CommentServiceImpl commentService;
     private final VoteServiceImpl voteService;
-    private final DomainRepository domainRepository;
+    private final ImageService imageService;
 
-    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService, DomainRepository domainRepository) {
+
+    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService, ImageService imageService) {
         this.problemService = problemService;
         this.commentService = commentService;
         this.voteService = voteService;
-        this.domainRepository = domainRepository;
+        this.imageService = imageService;
     }
 
     @GetMapping
@@ -78,6 +81,11 @@ public class ProblemController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}/user")
+    UserDto getUserCreator(@PathVariable Long id) {
+        return UserMapper.INSTANCE.toDto(problemService.getProblemById(id).getUser());
+    }
+
     @GetMapping("/{id}/votes")
     Long getVotesByProblem(@PathVariable Long id) {
         return voteService.getByProblem(id);
@@ -86,6 +94,7 @@ public class ProblemController {
     @PostMapping
     ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
+
         problemService.addProblem(problem);
         newProblemDto.setProblem_id(problem.getProblem_id());
         newProblemDto.setCreated_at(problem.getCreated_at());

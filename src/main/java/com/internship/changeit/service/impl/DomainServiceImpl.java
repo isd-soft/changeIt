@@ -5,6 +5,7 @@ import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.service.DomainService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +25,14 @@ public class DomainServiceImpl implements DomainService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public Domain saveDomain(Domain domain){
         domainRepository.save(domain);
         return domain;
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public Domain updateDomain(Domain newDomain, Long id) {
 
         Optional<Domain> optionalDomain = domainRepository.findById(id);
@@ -43,6 +46,7 @@ public class DomainServiceImpl implements DomainService {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public void deleteDomain(Long id) {
         domainRepository.findById(id).
                 orElseThrow(() -> new ApplicationException(ExceptionType.DOMAIN_NOT_FOUND));

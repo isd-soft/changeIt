@@ -11,7 +11,11 @@ import com.internship.changeit.model.UserStatus;
 import com.internship.changeit.service.ProblemService;
 import com.internship.changeit.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -31,5 +35,12 @@ public class AdminController {
     public ProblemDto changeProblemStatus(@PathVariable final Long id, @RequestParam final Status status){
         Problem problem = problemService.updateProblemStatus(id, status);
         return ProblemMapper.INSTANCE.toDto(problem);
+    }
+
+    @GetMapping("/user")
+    public List<UserDto> getAllUsers(){
+        return userService.getAllUsers().stream()
+                .map(UserMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 }

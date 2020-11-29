@@ -1,6 +1,9 @@
 package com.internship.changeit.dto;
 
+import com.internship.changeit.model.Address;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,8 @@ public class ProblemDto {
     private Date updated_at;
     private String status;
     private LocationDto location;
+    private UserDto user;
+    private Address address;
     private List<DomainDto> domains;
 
 }
