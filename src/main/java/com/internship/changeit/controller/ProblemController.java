@@ -11,6 +11,9 @@ import com.internship.changeit.service.ImageService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,8 +37,8 @@ public class ProblemController {
     }
 
     @GetMapping
-    List<ProblemDto> all() {
-        return problemService.getAllProblems()
+    public List<ProblemDto> all(@RequestParam @PageableDefault(sort = "created_at", direction = Sort.Direction.DESC) final Pageable pageable) {
+        return problemService.getAllProblems(pageable)
                 .stream()
                 .map(ProblemMapper.INSTANCE::toDto )
                 .collect( Collectors.toList() );

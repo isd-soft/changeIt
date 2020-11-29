@@ -9,6 +9,9 @@ import com.internship.changeit.model.Status;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProblemServiceImpl implements ProblemService {
 
+
     private final ProblemRepository problemRepository;
     private final DomainRepository domainRepository;
 
@@ -28,34 +32,34 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> getAllProblems() {
-        return problemRepository.findAll();
+    public List<Problem> getAllProblems(final Pageable pageable) {
+        return problemRepository.findAll(pageable).getContent();
     }
 
     @Override
     public List<Problem> sortProblemsByDateAsc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = problemRepository.findAll();
         sortedProblems.sort(compareByDateAsc);
         return sortedProblems;
     }
 
     @Override
     public List<Problem> sortProblemsByDateDesc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = this.problemRepository.findAll();
         sortedProblems.sort(compareByDateDesc);
         return sortedProblems;
     }
 
     @Override
     public List<Problem> sortProblemsByVoteAsc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = this.problemRepository.findAll();
         sortedProblems.sort(compareByVotesAsc);
         return sortedProblems;
     }
 
     @Override
     public List<Problem> sortProblemsByVoteDesc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = this.problemRepository.findAll();
         sortedProblems.sort(compareByVotesDesc);
         return sortedProblems;
     }
@@ -154,7 +158,7 @@ public class ProblemServiceImpl implements ProblemService {
     };
 
     public List<Problem> getByUser(Long id) {
-        List<Problem> problems = this.getAllProblems();
+        List<Problem> problems = this.problemRepository.findAll();
         return problems
                 .stream()
                 .filter(problem -> problem.getUser().getUser_id().equals(id))
