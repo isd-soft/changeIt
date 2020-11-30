@@ -16,7 +16,7 @@ public class Problem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long problem_id;
+    private Long id;
 
     private String title;
     private String description;
@@ -25,10 +25,12 @@ public class Problem {
     private Integer votesCount;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
+    @Column(name = "created_at")
+    private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated_at;
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     @Enumerated(EnumType.STRING)
     private Status status;

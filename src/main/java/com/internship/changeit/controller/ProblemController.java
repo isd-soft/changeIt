@@ -8,16 +8,10 @@ import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.Problem;
-import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -111,9 +105,9 @@ public class ProblemController {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
 
         problemService.addProblem(problem);
-        newProblemDto.setProblem_id(problem.getProblem_id());
-        newProblemDto.setCreated_at(problem.getCreated_at());
-        newProblemDto.setUpdated_at(problem.getUpdated_at());
+        newProblemDto.setId(problem.getId());
+        newProblemDto.setCreatedAt(problem.getCreatedAt());
+        newProblemDto.setUpdatedAt(problem.getUpdatedAt());
         return newProblemDto;
     }
 

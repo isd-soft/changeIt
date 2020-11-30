@@ -34,7 +34,9 @@ public class ProblemServiceImpl implements ProblemService {
     public Page<Problem> getAllProblems(final int page, final int size, final String sortDir, final String sort) {
         final PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDir), sort);
         return problemRepository.findAll(pageRequest);
+
     }
+
 
     @Override
     public List<Problem> sortProblemsByDateAsc(){
@@ -82,8 +84,8 @@ public class ProblemServiceImpl implements ProblemService {
         problem.setDistrict(problem.getLocation().getDistrict());
         problem.setDomains(domains);
 
-        problem.setCreated_at(new Date());
-        problem.setUpdated_at(new Date());
+        problem.setCreatedAt(new Date());
+        problem.setUpdatedAt(new Date());
         problemRepository.save(problem);
         return problem;
     }
@@ -98,8 +100,8 @@ public class ProblemServiceImpl implements ProblemService {
             updatable.setTitle(newProblem.getTitle());
             updatable.setDescription(newProblem.getDescription());
             updatable.setVotesCount(newProblem.getVotesCount());
-            updatable.setCreated_at(newProblem.getCreated_at());
-            updatable.setUpdated_at(newProblem.getUpdated_at());
+            updatable.setCreatedAt(newProblem.getCreatedAt());
+            updatable.setUpdatedAt(newProblem.getUpdatedAt());
             updatable.setStatus((newProblem.getStatus()));
             problemRepository.save(updatable);
             return updatable;
@@ -143,16 +145,16 @@ public class ProblemServiceImpl implements ProblemService {
 
     public static Comparator<Problem> compareByDateAsc = (problem1, problem2) -> {
 
-        Date created_At1 = problem1.getCreated_at();
-        Date created_At2 = problem2.getCreated_at();
+        Date created_At1 = problem1.getCreatedAt();
+        Date created_At2 = problem2.getCreatedAt();
 
         return created_At1.compareTo(created_At2);
     };
 
     public static Comparator<Problem> compareByDateDesc = (problem1, problem2) -> {
 
-        Date created_At1 = problem1.getCreated_at();
-        Date created_At2 = problem2.getCreated_at();
+        Date created_At1 = problem1.getCreatedAt();
+        Date created_At2 = problem2.getCreatedAt();
 
         return created_At2.compareTo(created_At1);
     };

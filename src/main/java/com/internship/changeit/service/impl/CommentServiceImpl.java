@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
         sortedComments.sort(compareByDateDesc);
         return sortedComments
                 .stream()
-                .filter(comment -> comment.getProblem().getProblem_id().equals(id))
+                .filter(comment -> comment.getProblem().getId().equals(id))
                 .collect(Collectors.toList());
     }
 
