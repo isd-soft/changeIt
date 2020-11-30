@@ -32,7 +32,7 @@ public class VoteServiceImpl implements VoteService {
     public Long getByProblem(Long id) {
         return voteRepository.findAll()
                 .stream()
-                .filter(vote -> vote.getProblem().getProblem_id().equals(id))
+                .filter(vote -> vote.getProblem().getId().equals(id))
                 .count();
     }
 
@@ -40,7 +40,7 @@ public class VoteServiceImpl implements VoteService {
     public Vote getVote(Long problemId, Long userId) {
         return voteRepository.findAll()
                 .stream()
-                .filter(vot -> vot.getProblem().getProblem_id().equals(problemId) && vot.getUser().getUser_id().equals(userId) )
+                .filter(vot -> vot.getProblem().getId().equals(problemId) && vot.getUser().getUser_id().equals(userId) )
                 .findAny().orElse(null);
     }
 

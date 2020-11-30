@@ -11,6 +11,5 @@ public class UserDto {
     private String email;
     private String role;
     private String userStatus;
-    private String password;
     private byte[] userLogo;
 }

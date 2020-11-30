@@ -8,6 +8,9 @@ import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
 import com.internship.changeit.service.CommentVoteService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

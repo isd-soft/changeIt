@@ -1,19 +1,23 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
+import com.internship.changeit.dto.PaginationDetailsDto;
 import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.Problem;
-import com.internship.changeit.service.ImageService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,22 +27,27 @@ public class ProblemController {
     private final ProblemServiceImpl problemService;
     private final CommentServiceImpl commentService;
     private final VoteServiceImpl voteService;
-    private final ImageService imageService;
 
-
-    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService, ImageService imageService) {
+    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService) {
         this.problemService = problemService;
         this.commentService = commentService;
         this.voteService = voteService;
-        this.imageService = imageService;
     }
 
     @GetMapping
-    List<ProblemDto> all() {
-        return problemService.getAllProblems()
-                .stream()
-                .map(ProblemMapper.INSTANCE::toDto )
-                .collect( Collectors.toList() );
+    public ResponseEntity<?> all(@RequestBody final PaginationDetailsDto paginationDetails) {
+        final Map<Object, Object> response = new HashMap<>();
+        final Page<Problem> problemPageResponse = problemService.getAllProblems(paginationDetails.getPage(), paginationDetails.getSize(), paginationDetails.getSortDir(), paginationDetails.getSort());
+        List<ProblemDto> problems =  problemPageResponse.stream()
+                                                        .map(ProblemMapper.INSTANCE::toDto )
+                                                        .collect(Collectors.toList());
+        response.put("Problems" , problems);
+        response.put("totalPages", problemPageResponse.getTotalPages());
+        response.put("hasNext", problemPageResponse.hasNext());
+        response.put("hasPrevious", problemPageResponse.hasPrevious());
+        response.put("totalElements", problemPageResponse.getTotalElements());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/sortedByDateAsc")
@@ -96,9 +105,9 @@ public class ProblemController {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
 
         problemService.addProblem(problem);
-        newProblemDto.setProblem_id(problem.getProblem_id());
-        newProblemDto.setCreated_at(problem.getCreated_at());
-        newProblemDto.setUpdated_at(problem.getUpdated_at());
+        newProblemDto.setId(problem.getId());
+        newProblemDto.setCreatedAt(problem.getCreatedAt());
+        newProblemDto.setUpdatedAt(problem.getUpdatedAt());
         return newProblemDto;
     }
 
