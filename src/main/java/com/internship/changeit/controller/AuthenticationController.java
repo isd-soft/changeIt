@@ -35,7 +35,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@Valid @RequestBody final AuthenticationRequestDto request){
-        //TODO extract business logic in a separate method
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             User user = userService.getUserByEmail(request.getEmail());
@@ -43,8 +42,6 @@ public class AuthenticationController {
             if(user == null){
                 throw  new ApplicationException(ExceptionType.USER_NOT_FOUND);
             }
-
-
             String token = jwtProvider.createToken(request.getEmail(), user.getRole().name());
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());

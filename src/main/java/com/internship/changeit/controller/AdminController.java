@@ -40,7 +40,7 @@ public class AdminController {
     @GetMapping("/user")
     public List<UserDto> getAllUsers(){
         return userService.getAllUsers().stream()
-                .map(UserMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
+                                        .map(UserMapper.INSTANCE::toDto)
+                                        .collect(Collectors.toList());
     }
 }
