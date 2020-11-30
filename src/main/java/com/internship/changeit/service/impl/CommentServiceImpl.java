@@ -7,6 +7,7 @@ import com.internship.changeit.model.Problem;
 import com.internship.changeit.repository.CommentRepository;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.CommentService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +30,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+    public List<Comment> getAllComments(final Pageable pageable) {
+        return commentRepository.findAll(pageable).getContent();
     }
 
     @Override
     public List<Comment> getByProblem(Long id) {
-        List<Comment> sortedComments = this.getAllComments();
+        List<Comment> sortedComments = this.commentRepository.findAll();
         sortedComments.sort(compareByDateDesc);
         return sortedComments
                 .stream()
@@ -45,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getByUser(Long id) {
-        List<Comment> sortedComments = this.getAllComments();
+        List<Comment> sortedComments = this.commentRepository.findAll();
         sortedComments.sort(compareByDateDesc);
         return sortedComments
                 .stream()

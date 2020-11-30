@@ -8,6 +8,9 @@ import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
 import com.internship.changeit.service.CommentVoteService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +29,8 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<CommentDto> getAllComments(){
-        return commentService.getAllComments().stream()
+    public List<CommentDto> getAllComments(@PageableDefault(sort = "votesCount", direction = Sort.Direction.ASC) final Pageable pageable){
+        return commentService.getAllComments(pageable).stream()
                 .map(CommentMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
     }

@@ -7,10 +7,11 @@ import com.internship.changeit.mapper.CommentMapper;
 import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.mapper.UserMapper;
 import com.internship.changeit.model.Problem;
-import com.internship.changeit.service.ImageService;
+import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -26,22 +27,20 @@ public class ProblemController {
     private final ProblemServiceImpl problemService;
     private final CommentServiceImpl commentService;
     private final VoteServiceImpl voteService;
-    private final ImageService imageService;
 
-
-    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService, ImageService imageService) {
+    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService) {
         this.problemService = problemService;
         this.commentService = commentService;
         this.voteService = voteService;
-        this.imageService = imageService;
     }
 
     @GetMapping
-    public List<ProblemDto> all(@RequestParam @PageableDefault(sort = "created_at", direction = Sort.Direction.DESC) final Pageable pageable) {
+    public List<ProblemDto> all(@PageableDefault(sort = "status", direction = Sort.Direction.ASC) final Pageable pageable) {
+
         return problemService.getAllProblems(pageable)
                 .stream()
                 .map(ProblemMapper.INSTANCE::toDto )
-                .collect( Collectors.toList() );
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/sortedByDateAsc")
