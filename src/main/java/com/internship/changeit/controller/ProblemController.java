@@ -1,6 +1,7 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
+import com.internship.changeit.dto.PaginationDetailsDto;
 import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.mapper.CommentMapper;
@@ -12,12 +13,17 @@ import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,12 +41,19 @@ public class ProblemController {
     }
 
     @GetMapping
-    public List<ProblemDto> all(@PageableDefault(sort = "status", direction = Sort.Direction.ASC) final Pageable pageable) {
+    public ResponseEntity<?> all(@RequestBody final PaginationDetailsDto paginationDetails) {
+        final Map<Object, Object> response = new HashMap<>();
+        final Page<Problem> problemPageResponse = problemService.getAllProblems(paginationDetails.getPage(), paginationDetails.getSize(), paginationDetails.getSortDir(), paginationDetails.getSort());
+        List<ProblemDto> problems =  problemPageResponse.stream()
+                                                        .map(ProblemMapper.INSTANCE::toDto )
+                                                        .collect(Collectors.toList());
+        response.put("Problems" , problems);
+        response.put("totalPages", problemPageResponse.getTotalPages());
+        response.put("hasNext", problemPageResponse.hasNext());
+        response.put("hasPrevious", problemPageResponse.hasPrevious());
+        response.put("totalElements", problemPageResponse.getTotalElements());
 
-        return problemService.getAllProblems(pageable)
-                .stream()
-                .map(ProblemMapper.INSTANCE::toDto )
-                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/sortedByDateAsc")

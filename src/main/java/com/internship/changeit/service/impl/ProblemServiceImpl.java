@@ -8,7 +8,9 @@ import com.internship.changeit.model.Status;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +31,9 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> getAllProblems(final Pageable pageable) {
-        return problemRepository.findAll(pageable).getContent();
+    public Page<Problem> getAllProblems(final int page, final int size, final String sortDir, final String sort) {
+        final PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDir), sort);
+        return problemRepository.findAll(pageRequest);
     }
 
     @Override

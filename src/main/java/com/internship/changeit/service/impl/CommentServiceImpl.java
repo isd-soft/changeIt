@@ -30,8 +30,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllComments(final Pageable pageable) {
-        return commentRepository.findAll(pageable).getContent();
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
     }
 
     @Override

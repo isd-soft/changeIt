@@ -29,8 +29,8 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<CommentDto> getAllComments(@PageableDefault(sort = "votesCount", direction = Sort.Direction.ASC) final Pageable pageable){
-        return commentService.getAllComments(pageable).stream()
+    public List<CommentDto> getAllComments(){
+        return commentService.getAllComments().stream()
                 .map(CommentMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
     }

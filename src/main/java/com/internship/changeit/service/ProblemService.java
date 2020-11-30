@@ -2,15 +2,14 @@ package com.internship.changeit.service;
 
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Status;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.QPageRequest;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 
 public interface ProblemService {
 
-    List<Problem> getAllProblems(Pageable pageable);
+    Page<Problem> getAllProblems(final int page, final int size, final String sortDir, final String sort);
 
     List<Problem> sortProblemsByDateAsc();
 

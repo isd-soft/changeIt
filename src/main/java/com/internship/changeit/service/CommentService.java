@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getAllComments(final Pageable pageable);
+    List<Comment> getAllComments();
 
     List<Comment> getByProblem(Long id);
 
