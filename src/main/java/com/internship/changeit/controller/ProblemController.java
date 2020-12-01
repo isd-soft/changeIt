@@ -34,7 +34,7 @@ public class ProblemController {
         this.voteService = voteService;
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<?> all(@RequestBody final PaginationDetailsDto paginationDetails) {
         final Map<Object, Object> response = new HashMap<>();
         final Page<Problem> problemPageResponse = problemService.getAllProblems(paginationDetails.getPage(), paginationDetails.getSize(), paginationDetails.getSortDir(), paginationDetails.getSort());
@@ -50,37 +50,7 @@ public class ProblemController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/sortedByDateAsc")
-    List<ProblemDto> allSortedByDateAsc() {
-        return problemService.sortProblemsByDateAsc()
-                .stream()
-                .map(ProblemMapper.INSTANCE::toDto )
-                .collect( Collectors.toList() );
-    }
 
-    @GetMapping("/sortedByDateDesc")
-    List<ProblemDto> allSortedByDateDesc() {
-        return problemService.sortProblemsByDateDesc()
-                .stream()
-                .map(ProblemMapper.INSTANCE::toDto )
-                .collect( Collectors.toList() );
-    }
-
-    @GetMapping("/sortedByVoteAsc")
-    List<ProblemDto> allSortedByVoteAsc() {
-        return problemService.sortProblemsByVoteAsc()
-                .stream()
-                .map(ProblemMapper.INSTANCE::toDto )
-                .collect( Collectors.toList() );
-    }
-
-    @GetMapping("/sortedByVoteDesc")
-    List<ProblemDto> allSortedByVoteDesc() {
-        return problemService.sortProblemsByVoteDesc()
-                .stream()
-                .map(ProblemMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
-    }
 
     @GetMapping("/{id}/comments")
     List<CommentDto> getCommentsByProblem(@PathVariable Long id) {
@@ -100,7 +70,7 @@ public class ProblemController {
         return voteService.getByProblem(id);
     }
 
-    @PostMapping
+    @PostMapping("/new")
     ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
 
