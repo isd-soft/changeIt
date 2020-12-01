@@ -33,5 +33,8 @@ public class Comment {
     private Problem problem;
 
     @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-    private List<CommentVote> commentVotes = new ArrayList<>();
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+    private List<Dislikes> dislikes = new ArrayList<>();
 }

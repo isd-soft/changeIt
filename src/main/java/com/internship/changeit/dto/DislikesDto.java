@@ -3,7 +3,7 @@ package com.internship.changeit.dto;
 import lombok.Data;
 
 @Data
-public class CommentVoteDto {
+public class DislikesDto {
     private CommentDto comment;
     private UserDto user;
 }

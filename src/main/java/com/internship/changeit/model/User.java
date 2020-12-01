@@ -62,7 +62,10 @@ public class User {
     private List<Vote> votes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<CommentVote> commentVotes = new ArrayList<>();
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Dislikes> dislikes = new ArrayList<>();
 
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] userLogo;

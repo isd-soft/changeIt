@@ -1,12 +1,11 @@
 package com.internship.changeit.controller;
 
 import com.internship.changeit.dto.CommentDto;
-import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.mapper.CommentMapper;
-import com.internship.changeit.mapper.ProblemMapper;
 import com.internship.changeit.model.Comment;
 import com.internship.changeit.service.CommentService;
-import com.internship.changeit.service.CommentVoteService;
+import com.internship.changeit.service.DislikesService;
+import com.internship.changeit.service.LikesService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +17,13 @@ import java.util.stream.Collectors;
 public class CommentController {
 
     private final CommentService commentService;
-    private final CommentVoteService commentVoteService;
+    private final LikesService likesService;
+    private final DislikesService dislikesService;
 
-    public CommentController(CommentServiceImpl commentService, CommentVoteService commentVoteService){
+    public CommentController(CommentServiceImpl commentService, LikesService likesService, DislikesService dislikesService){
         this.commentService = commentService;
-        this.commentVoteService = commentVoteService;
+        this.likesService = likesService;
+        this.dislikesService = dislikesService;
     }
 
     @GetMapping
@@ -37,9 +38,14 @@ public class CommentController {
         return CommentMapper.INSTANCE.toDto(commentService.getCommentById(id));
     }
 
-    @GetMapping("/{id}/votes")
-    Long getVotesByComment(@PathVariable Long id) {
-        return commentVoteService.getByComment(id);
+    @GetMapping("/{id}/likes")
+    Long getLikesByComment(@PathVariable Long id) {
+        return likesService.getByComment(id);
+    }
+
+    @GetMapping("/{id}/dislikes")
+    Long getDislikesByComment(@PathVariable Long id) {
+        return dislikesService.getByComment(id);
     }
 
     @PostMapping
