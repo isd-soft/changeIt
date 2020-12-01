@@ -3,7 +3,7 @@
         COMMENT_ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         CONTENT          VARCHAR(255),
         CREATED_AT       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        VOTES            INTEGER,
+        VOTES            INTEGER DEFAULT 0 NOT NULL,
         PROBLEM_ID       BIGINT,
         USER_ID          BIGINT
     );
