@@ -2,13 +2,15 @@ package com.internship.changeit.service.impl;
 
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
-import com.internship.changeit.model.Comment;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.model.Problem;
 import com.internship.changeit.model.Status;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.repository.ProblemRepository;
 import com.internship.changeit.service.ProblemService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProblemServiceImpl implements ProblemService {
 
+
     private final ProblemRepository problemRepository;
     private final DomainRepository domainRepository;
 
@@ -28,34 +31,37 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> getAllProblems() {
-        return problemRepository.findAll();
+    public Page<Problem> getAllProblems(final int page, final int size, final String sortDir, final String sort) {
+        final PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDir), sort);
+        return problemRepository.findAll(pageRequest);
+
     }
+
 
     @Override
     public List<Problem> sortProblemsByDateAsc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = problemRepository.findAll();
         sortedProblems.sort(compareByDateAsc);
         return sortedProblems;
     }
 
     @Override
     public List<Problem> sortProblemsByDateDesc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = this.problemRepository.findAll();
         sortedProblems.sort(compareByDateDesc);
         return sortedProblems;
     }
 
     @Override
     public List<Problem> sortProblemsByVoteAsc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = this.problemRepository.findAll();
         sortedProblems.sort(compareByVotesAsc);
         return sortedProblems;
     }
 
     @Override
     public List<Problem> sortProblemsByVoteDesc(){
-        List<Problem> sortedProblems = this.getAllProblems();
+        List<Problem> sortedProblems = this.problemRepository.findAll();
         sortedProblems.sort(compareByVotesDesc);
         return sortedProblems;
     }
@@ -78,8 +84,8 @@ public class ProblemServiceImpl implements ProblemService {
         problem.setDistrict(problem.getLocation().getDistrict());
         problem.setDomains(domains);
 
-        problem.setCreated_at(new Date());
-        problem.setUpdated_at(new Date());
+        problem.setCreatedAt(new Date());
+        problem.setUpdatedAt(new Date());
         problemRepository.save(problem);
         return problem;
     }
@@ -94,8 +100,8 @@ public class ProblemServiceImpl implements ProblemService {
             updatable.setTitle(newProblem.getTitle());
             updatable.setDescription(newProblem.getDescription());
             updatable.setVotesCount(newProblem.getVotesCount());
-            updatable.setCreated_at(newProblem.getCreated_at());
-            updatable.setUpdated_at(newProblem.getUpdated_at());
+            updatable.setCreatedAt(newProblem.getCreatedAt());
+            updatable.setUpdatedAt(newProblem.getUpdatedAt());
             updatable.setStatus((newProblem.getStatus()));
             problemRepository.save(updatable);
             return updatable;
@@ -139,22 +145,22 @@ public class ProblemServiceImpl implements ProblemService {
 
     public static Comparator<Problem> compareByDateAsc = (problem1, problem2) -> {
 
-        Date created_At1 = problem1.getCreated_at();
-        Date created_At2 = problem2.getCreated_at();
+        Date created_At1 = problem1.getCreatedAt();
+        Date created_At2 = problem2.getCreatedAt();
 
         return created_At1.compareTo(created_At2);
     };
 
     public static Comparator<Problem> compareByDateDesc = (problem1, problem2) -> {
 
-        Date created_At1 = problem1.getCreated_at();
-        Date created_At2 = problem2.getCreated_at();
+        Date created_At1 = problem1.getCreatedAt();
+        Date created_At2 = problem2.getCreatedAt();
 
         return created_At2.compareTo(created_At1);
     };
 
     public List<Problem> getByUser(Long id) {
-        List<Problem> problems = this.getAllProblems();
+        List<Problem> problems = this.problemRepository.findAll();
         return problems
                 .stream()
                 .filter(problem -> problem.getUser().getUser_id().equals(id))
