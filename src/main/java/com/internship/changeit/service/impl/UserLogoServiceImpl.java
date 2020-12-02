@@ -48,7 +48,7 @@ public class UserLogoServiceImpl implements UserLogoService {
     @Override
     @Transactional
     public void deleteUserLogo(Long userId) {
-        User user = userRepository.findById(userId)
+        final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
         user.setUserLogo(null);
         this.userRepository.save(user);
@@ -56,7 +56,7 @@ public class UserLogoServiceImpl implements UserLogoService {
 
     @Override
     public UserDto getUserLogo(Long userId) {
-        User user = userRepository.findById(userId)
+        final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApplicationException(ExceptionType.USER_NOT_FOUND));
         return UserMapper.INSTANCE.toDto(user);
     }

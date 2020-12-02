@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,4 +72,14 @@ public class Problem {
             usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Vote> votes = new ArrayList<>();
 
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = Date.from(Instant.now());
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = Date.from(Instant.now());
+    }
 }

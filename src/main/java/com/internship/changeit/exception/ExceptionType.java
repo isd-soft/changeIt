@@ -1,5 +1,6 @@
 package com.internship.changeit.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -28,6 +29,4 @@ public enum ExceptionType {
         this.message = message;
         this.httpStatus = httpStatus;
     }
-
-
 }

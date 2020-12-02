@@ -26,6 +26,4 @@ public class Vote {
     @JoinColumn(name = "user_id")
     private User user;
 
-
-
 }

@@ -17,13 +17,12 @@ public class VoteController {
 
     @GetMapping("{problemId}/{userId}")
     public VoteDto getVote(@PathVariable Long problemId, @PathVariable Long userId) {
-
         return VoteMapper.INSTANCE.toDto(voteService.getVote(problemId, userId));
     }
 
     @PostMapping
     public VoteDto vote(@RequestBody VoteDto voteDto) {
-        Vote vote = VoteMapper.INSTANCE.fromDto(voteDto);
+        final Vote vote = VoteMapper.INSTANCE.fromDto(voteDto);
         return VoteMapper.INSTANCE.toDto(voteService.saveVote(vote));
     }
 
