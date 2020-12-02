@@ -4,6 +4,7 @@ import com.internship.changeit.dto.DomainDto;
 import com.internship.changeit.mapper.DomainMapper;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.service.DomainService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/domain")
 public class DomainController {
 
     private final DomainService domainService;
-
-    public DomainController(DomainService domainService) {
-        this.domainService = domainService;
-    }
 
     @GetMapping
     public List<DomainDto> getAllDomains(){

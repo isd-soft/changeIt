@@ -7,6 +7,7 @@ import com.internship.changeit.service.CommentService;
 import com.internship.changeit.service.DislikesService;
 import com.internship.changeit.service.LikesService;
 import com.internship.changeit.service.impl.CommentServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/comment")
 public class CommentController {
 
@@ -23,17 +25,11 @@ public class CommentController {
     private final LikesService likesService;
     private final DislikesService dislikesService;
 
-    public CommentController(CommentServiceImpl commentService, LikesService likesService, DislikesService dislikesService){
-        this.commentService = commentService;
-        this.likesService = likesService;
-        this.dislikesService = dislikesService;
-    }
-
     @GetMapping
     public List<CommentDto> getAllComments(){
         return commentService.getAllComments().stream()
-                .map(CommentMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
+                                              .map(CommentMapper.INSTANCE::toDto)
+                                              .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -53,14 +49,14 @@ public class CommentController {
 
     @PostMapping
     public CommentDto createComment(@RequestBody CommentDto commentDto){
-        Comment comment = CommentMapper.INSTANCE.fromDto(commentDto);
+        final Comment comment = CommentMapper.INSTANCE.fromDto(commentDto);
         commentService.saveComment(comment);
         return commentDto;
     }
 
     @PutMapping("/{id}")
     public CommentDto updateComment(@RequestBody CommentDto newCommentDto, @PathVariable Long id){
-        Comment newComment = CommentMapper.INSTANCE.fromDto(newCommentDto);
+        final Comment newComment = CommentMapper.INSTANCE.fromDto(newCommentDto);
         commentService.updateComment(newComment, id);
         return newCommentDto;
     }

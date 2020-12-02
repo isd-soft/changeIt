@@ -11,6 +11,7 @@ import com.internship.changeit.model.Problem;
 import com.internship.changeit.service.impl.CommentServiceImpl;
 import com.internship.changeit.service.impl.ProblemServiceImpl;
 import com.internship.changeit.service.impl.VoteServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/problem")
 public class ProblemController {
 
@@ -28,20 +30,14 @@ public class ProblemController {
     private final CommentServiceImpl commentService;
     private final VoteServiceImpl voteService;
 
-    public ProblemController(ProblemServiceImpl problemService, CommentServiceImpl commentService, VoteServiceImpl voteService) {
-        this.problemService = problemService;
-        this.commentService = commentService;
-        this.voteService = voteService;
-    }
-
     @PostMapping
-    public ResponseEntity<?> all(@RequestBody final PaginationDetailsDto paginationDetails) {
+    public ResponseEntity<?> getPages(@RequestBody final PaginationDetailsDto paginationDetails) {
         final Map<Object, Object> response = new HashMap<>();
         final Page<Problem> problemPageResponse = problemService.getAllProblems(paginationDetails.getPage(), paginationDetails.getSize(), paginationDetails.getSortDir(), paginationDetails.getSort());
-        List<ProblemDto> problems =  problemPageResponse.stream()
-                                                        .map(ProblemMapper.INSTANCE::toDto )
-                                                        .collect(Collectors.toList());
-        response.put("Problems" , problems);
+        final List<ProblemDto> problems = problemPageResponse.stream()
+                                                             .map(ProblemMapper.INSTANCE::toDto)
+                                                             .collect(Collectors.toList());
+        response.put("Problems", problems);
         response.put("totalPages", problemPageResponse.getTotalPages());
         response.put("hasNext", problemPageResponse.hasNext());
         response.put("hasPrevious", problemPageResponse.hasPrevious());
@@ -51,7 +47,7 @@ public class ProblemController {
     }
 
     @GetMapping
-    List<ProblemDto> getAll() {
+    public List<ProblemDto> getAll() {
         return problemService.getAll().stream()
                 .map(ProblemMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
@@ -59,10 +55,9 @@ public class ProblemController {
 
     @GetMapping("/{id}/comments")
     public List<CommentDto> getCommentsByProblem(@PathVariable Long id) {
-        return commentService.getByProblem(id)
-                .stream()
-                .map(CommentMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
+        return commentService.getByProblem(id).stream()
+                                              .map(CommentMapper.INSTANCE::toDto)
+                                              .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}/user")
@@ -77,7 +72,7 @@ public class ProblemController {
 
     @PostMapping("/new")
     public ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
-        Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
+        final Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
 
         problemService.addProblem(problem);
         newProblemDto.setId(problem.getId());
@@ -93,7 +88,7 @@ public class ProblemController {
 
     @PutMapping("/{id}")
     public ProblemDto replaceProblem(@RequestBody ProblemDto newProblemDto, @PathVariable Long id) {
-        Problem newProblem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
+        final Problem newProblem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
         problemService.updateProblem(newProblem, id);
         return newProblemDto;
     }

@@ -33,8 +33,7 @@ public class ImageController {
     private final UserService userService;
 
     @PostMapping("/problem/{problemId}/image")
-    public ResponseEntity<?> uploadProblemImages(
-            @PathVariable final String problemId, @RequestParam("imageFile") final MultipartFile[] files){
+    public ResponseEntity<?> uploadProblemImages(@PathVariable final String problemId, @RequestParam("imageFile") final MultipartFile[] files){
         final Problem problem = problemRepository.findById(Long.valueOf(problemId))
                 .orElseThrow(() -> new ApplicationException(ExceptionType.PROBLEM_NOT_FOUND));
         if(imageService.isImageNumberExceeded(problem, files.length)){

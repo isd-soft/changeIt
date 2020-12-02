@@ -6,7 +6,6 @@ import java.util.Date;
 
 @Data
 public class CommentDto {
-
     private Long comment_id;
     private ProblemDto problem;
     private UserDto user;

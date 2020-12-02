@@ -12,24 +12,24 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/dislikes")
 @AllArgsConstructor
+@RequestMapping("api/v1/dislikes")
 public class DislikesController {
 
     private final DislikesService dislikesService;
 
-    @GetMapping("/{commentId}/{userId}")
+    @GetMapping("/comment/{commentId}/user/{userId}")
     public DislikesDto getDislike(@PathVariable Long commentId, @PathVariable Long userId) {
         return DislikesMapper.INSTANCE.toDto(dislikesService.getDislike(commentId, userId));
     }
 
     @PostMapping
     public DislikesDto dislike(@RequestBody DislikesDto dislikesDto) {
-        Dislikes dislikes = DislikesMapper.INSTANCE.fromDto(dislikesDto);
+        final Dislikes dislikes = DislikesMapper.INSTANCE.fromDto(dislikesDto);
         return DislikesMapper.INSTANCE.toDto(dislikesService.saveDislike(dislikes));
     }
 
-    @DeleteMapping("/{commentId}/{userId}")
+    @DeleteMapping("/comment/{commentId}/user/{userId}")
     public void deleteDislike(@PathVariable Long commentId, @PathVariable Long userId){
         dislikesService.deleteDislike(commentId, userId);
     }

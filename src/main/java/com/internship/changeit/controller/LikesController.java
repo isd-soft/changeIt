@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/likes")
 @AllArgsConstructor
+@RequestMapping("api/v1/likes")
 public class LikesController {
 
     private final LikesService likesService;

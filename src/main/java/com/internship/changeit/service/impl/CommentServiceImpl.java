@@ -63,7 +63,6 @@ public class CommentServiceImpl implements CommentService {
         final Optional<User> user = userRepository.findByEmail(comment.getUser().getEmail());
         user.ifPresent(comment::setUser);
         comment.setVotes(0);
-        comment.setCreated_at(new Date());
         commentRepository.save(comment);
         return comment;
     }
