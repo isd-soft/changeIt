@@ -58,7 +58,7 @@ public class ProblemController {
     }
 
     @GetMapping("/{id}/comments")
-    List<CommentDto> getCommentsByProblem(@PathVariable Long id) {
+    public List<CommentDto> getCommentsByProblem(@PathVariable Long id) {
         return commentService.getByProblem(id)
                 .stream()
                 .map(CommentMapper.INSTANCE::toDto)
@@ -66,17 +66,17 @@ public class ProblemController {
     }
 
     @GetMapping("/{id}/user")
-    UserDto getUserCreator(@PathVariable Long id) {
+    public UserDto getUserCreator(@PathVariable Long id) {
         return UserMapper.INSTANCE.toDto(problemService.getProblemById(id).getUser());
     }
 
     @GetMapping("/{id}/votes")
-    Long getVotesByProblem(@PathVariable Long id) {
+    public Long getVotesByProblem(@PathVariable Long id) {
         return voteService.getByProblem(id);
     }
 
     @PostMapping("/new")
-    ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
+    public ProblemDto newProblem(@RequestBody ProblemDto newProblemDto) {
         Problem problem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
 
         problemService.addProblem(problem);
@@ -87,12 +87,12 @@ public class ProblemController {
     }
 
     @GetMapping("/{id}")
-    ProblemDto one(@PathVariable Long id) {
+    public ProblemDto one(@PathVariable Long id) {
         return ProblemMapper.INSTANCE.toDto(problemService.getProblemById(id));
     }
 
     @PutMapping("/{id}")
-    ProblemDto replaceProblem(@RequestBody ProblemDto newProblemDto, @PathVariable Long id) {
+    public ProblemDto replaceProblem(@RequestBody ProblemDto newProblemDto, @PathVariable Long id) {
         Problem newProblem = ProblemMapper.INSTANCE.fromDto(newProblemDto);
         problemService.updateProblem(newProblem, id);
         return newProblemDto;

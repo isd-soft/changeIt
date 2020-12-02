@@ -130,7 +130,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
     @GetMapping("/{id}/problems")
-    List<ProblemDto> getProblemsByUser(@PathVariable Long id) {
+    public List<ProblemDto> getProblemsByUser(@PathVariable Long id) {
         return problemService.getByUser(id)
                 .stream()
                 .map(ProblemMapper.INSTANCE::toDto)

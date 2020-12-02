@@ -19,18 +19,18 @@ public class DislikesController {
     private final DislikesService dislikesService;
 
     @GetMapping("/{commentId}/{userId}")
-    DislikesDto getDislike(@PathVariable Long commentId, @PathVariable Long userId) {
+    public DislikesDto getDislike(@PathVariable Long commentId, @PathVariable Long userId) {
         return DislikesMapper.INSTANCE.toDto(dislikesService.getDislike(commentId, userId));
     }
 
     @PostMapping
-    DislikesDto dislike(@RequestBody DislikesDto dislikesDto) {
+    public DislikesDto dislike(@RequestBody DislikesDto dislikesDto) {
         Dislikes dislikes = DislikesMapper.INSTANCE.fromDto(dislikesDto);
         return DislikesMapper.INSTANCE.toDto(dislikesService.saveDislike(dislikes));
     }
 
     @DeleteMapping("/{commentId}/{userId}")
-    void deleteDislike(@PathVariable Long commentId, @PathVariable Long userId){
+    public void deleteDislike(@PathVariable Long commentId, @PathVariable Long userId){
         dislikesService.deleteDislike(commentId, userId);
     }
 }

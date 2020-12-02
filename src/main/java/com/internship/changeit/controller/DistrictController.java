@@ -34,7 +34,7 @@ public class DistrictController {
     }
 
     @PutMapping("/{id}")
-    DistrictDto replaceDistrict(@RequestBody DistrictDto newDistrictDto, @PathVariable Long id) {
+    public DistrictDto replaceDistrict(@RequestBody DistrictDto newDistrictDto, @PathVariable Long id) {
         District newDistrict = DistrictMapper.INSTANCE.fromDto(newDistrictDto);
         districtService.updateDistrict(newDistrict, id);
         return newDistrictDto;

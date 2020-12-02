@@ -35,7 +35,7 @@ public class DomainController {
     }
 
     @PutMapping("/{id}")
-    DomainDto replaceDomain(@RequestBody DomainDto newDomainDto, @PathVariable Long id) {
+    public DomainDto replaceDomain(@RequestBody DomainDto newDomainDto, @PathVariable Long id) {
         Domain newDomain = DomainMapper.INSTANCE.fromDto(newDomainDto);
         domainService.updateDomain(newDomain, id);
         return newDomainDto;
