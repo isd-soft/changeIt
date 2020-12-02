@@ -50,7 +50,12 @@ public class ProblemController {
         return ResponseEntity.ok(response);
     }
 
-
+    @GetMapping
+    List<ProblemDto> getAll() {
+        return problemService.getAll().stream()
+                .map(ProblemMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
 
     @GetMapping("/{id}/comments")
     List<CommentDto> getCommentsByProblem(@PathVariable Long id) {

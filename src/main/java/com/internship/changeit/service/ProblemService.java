@@ -11,6 +11,8 @@ public interface ProblemService {
 
     Page<Problem> getAllProblems(final int page, final int size, final String sortDir, final String sort);
 
+    List<Problem> getAll();
+
     List<Problem> sortProblemsByDateAsc();
 
     List<Problem> sortProblemsByDateDesc();

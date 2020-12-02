@@ -37,6 +37,10 @@ public class ProblemServiceImpl implements ProblemService {
 
     }
 
+    @Override
+    public List<Problem> getAll(){
+        return problemRepository.findAll();
+    }
 
     @Override
     public List<Problem> sortProblemsByDateAsc(){
