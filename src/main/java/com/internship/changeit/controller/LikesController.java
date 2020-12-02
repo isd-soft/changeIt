@@ -15,12 +15,12 @@ public class LikesController {
     private final LikesService likesService;
 
     @GetMapping("/{commentId}/{userId}")
-    LikesDto getLike(@PathVariable Long commentId, @PathVariable Long userId) {
+    public LikesDto getLike(@PathVariable Long commentId, @PathVariable Long userId) {
         return LikesMapper.INSTANCE.toDto(likesService.getLike(commentId, userId));
     }
 
     @PostMapping
-    LikesDto like(@RequestBody LikesDto likesDto) {
+    public LikesDto like(@RequestBody LikesDto likesDto) {
         Likes likes = LikesMapper.INSTANCE.fromDto(likesDto);
         return LikesMapper.INSTANCE.toDto(likesService.saveLike(likes));
     }

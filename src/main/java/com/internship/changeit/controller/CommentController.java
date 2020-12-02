@@ -37,17 +37,17 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    CommentDto one(@PathVariable Long id) {
+    public CommentDto one(@PathVariable Long id) {
         return CommentMapper.INSTANCE.toDto(commentService.getCommentById(id));
     }
 
     @GetMapping("/{id}/likes")
-    Long getLikesByComment(@PathVariable Long id) {
+    public Long getLikesByComment(@PathVariable Long id) {
         return likesService.getByComment(id);
     }
 
     @GetMapping("/{id}/dislikes")
-    Long getDislikesByComment(@PathVariable Long id) {
+    public Long getDislikesByComment(@PathVariable Long id) {
         return dislikesService.getByComment(id);
     }
 

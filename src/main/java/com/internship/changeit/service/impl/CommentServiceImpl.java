@@ -3,15 +3,13 @@ package com.internship.changeit.service.impl;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Comment;
-import com.internship.changeit.model.Problem;
+import com.internship.changeit.model.User;
 import com.internship.changeit.repository.CommentRepository;
 import com.internship.changeit.repository.UserRepository;
 import com.internship.changeit.service.CommentService;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +60,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment saveComment(Comment comment) {
-        comment.setUser(userRepository.findByEmail(comment.getUser().getEmail()).get());
+        final Optional<User> user = userRepository.findByEmail(comment.getUser().getEmail());
+        user.ifPresent(comment::setUser);
         comment.setVotes(0);
         comment.setCreated_at(new Date());
         commentRepository.save(comment);
@@ -85,9 +84,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @PreAuthorize("hasAnyAuthority('comments:delete')")
     public void deleteComment(long id) {
-        commentRepository.findById(id).
+        final Comment comment = commentRepository.findById(id).
                 orElseThrow(() -> new ApplicationException(ExceptionType.COMMENT_NOT_FOUND));
-        commentRepository.deleteById(id);
+        commentRepository.delete(comment);
     }
 
     public static Comparator<Comment> compareByDateDesc = (comment1, comment2) -> {
