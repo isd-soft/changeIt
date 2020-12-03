@@ -14,7 +14,7 @@ import java.util.UUID;
 @Component
 @AllArgsConstructor
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
-    private final String resourceUri = "/api/v1/user/registrationConfirm";
+    private final String resourceUri = "/user/registrationConfirm";
 
     private final UserService userService;
     private final JavaMailSender mailSender;
