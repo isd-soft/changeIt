@@ -1,5 +1,6 @@
 package com.internship.changeit.service.impl.registrationService;
 
+import com.internship.changeit.config.AppConfigBean;
 import com.internship.changeit.model.User;
 import com.internship.changeit.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private final UserService userService;
     private final JavaMailSender mailSender;
-
 
     @Override
     public void onApplicationEvent(final OnRegistrationCompleteEvent onRegistrationCompleteEvent) {
