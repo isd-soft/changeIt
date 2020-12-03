@@ -54,6 +54,11 @@ public class UserController {
         return UserMapper.INSTANCE.toDto(userService.getUserByEmail(user.getEmail()));
     }
 
+    @GetMapping("/{id}")
+    public UserDto getUserbyId(@PathVariable Long id) {
+        return UserMapper.INSTANCE.toDto(userService.getUserById(id));
+    }
+
     @PostMapping("/register")
     public User registerUser(@Valid @RequestBody final UserDto userDto, final HttpServletRequest request) {
         final User user = UserMapper.INSTANCE.fromDto(userDto);
