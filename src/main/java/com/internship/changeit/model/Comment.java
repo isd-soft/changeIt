@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,5 +34,13 @@ public class Comment {
     private Problem problem;
 
     @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-    private List<CommentVote> commentVotes = new ArrayList<>();
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+    private List<Dislikes> dislikes = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist(){
+        this.created_at = Date.from(Instant.now());
+    }
 }

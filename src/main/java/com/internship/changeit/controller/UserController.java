@@ -2,8 +2,8 @@ package com.internship.changeit.controller;
 
 
 import com.internship.changeit.dto.CommentDto;
-import com.internship.changeit.dto.ResetPasswordDetailsDTO;
 import com.internship.changeit.dto.ProblemDto;
+import com.internship.changeit.dto.ResetPasswordDetailsDTO;
 import com.internship.changeit.dto.UserDto;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
@@ -24,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +36,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/user")
 @AllArgsConstructor
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     private final UserService userService;
@@ -50,10 +49,14 @@ public class UserController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('DEVELOPER:READ')")
     public UserDto getUser(@RequestBody final UserDto userDto) {
         User user = UserMapper.INSTANCE.fromDto(userDto);
         return UserMapper.INSTANCE.toDto(userService.getUserByEmail(user.getEmail()));
+    }
+
+    @GetMapping("/{id}")
+    public UserDto getUserbyId(@PathVariable Long id) {
+        return UserMapper.INSTANCE.toDto(userService.getUserById(id));
     }
 
     @PostMapping("/register")
@@ -132,7 +135,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
     @GetMapping("/{id}/problems")
-    List<ProblemDto> getProblemsByUser(@PathVariable Long id) {
+    public List<ProblemDto> getProblemsByUser(@PathVariable Long id) {
         return problemService.getByUser(id)
                 .stream()
                 .map(ProblemMapper.INSTANCE::toDto)

@@ -7,12 +7,12 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-@Table(name = "comment_votes")
-public class CommentVote {
+@Table(name = "dislikes")
+public class Dislikes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long comment_vote_id;
+    private Long dislike_id;
 
     @NotNull
     @ManyToOne

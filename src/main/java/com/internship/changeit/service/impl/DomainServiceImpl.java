@@ -5,6 +5,7 @@ import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Domain;
 import com.internship.changeit.repository.DomainRepository;
 import com.internship.changeit.service.DomainService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class DomainServiceImpl implements DomainService {
     private final  DomainRepository domainRepository;
-
-    public DomainServiceImpl(DomainRepository domainRepository) {
-        this.domainRepository = domainRepository;
-    }
 
     @Override
     public List<Domain> getAllDomains(){
@@ -48,8 +46,8 @@ public class DomainServiceImpl implements DomainService {
     @Override
     @PreAuthorize("hasAnyAuthority('problem_properties:CRUD')")
     public void deleteDomain(Long id) {
-        domainRepository.findById(id).
-                orElseThrow(() -> new ApplicationException(ExceptionType.DOMAIN_NOT_FOUND));
-        domainRepository.deleteById(id);
+        final Domain domain = domainRepository.findById(id)
+                .orElseThrow(() -> new ApplicationException(ExceptionType.DOMAIN_NOT_FOUND));
+        domainRepository.delete(domain);
     }
 }

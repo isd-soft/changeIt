@@ -4,20 +4,18 @@ import com.internship.changeit.dto.LocationDto;
 import com.internship.changeit.mapper.LocationMapper;
 import com.internship.changeit.model.Location;
 import com.internship.changeit.service.impl.LocationServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/location")
 public class LocationController {
 
     private final LocationServiceImpl locationService;
-
-    public LocationController(LocationServiceImpl locationService) {
-        this.locationService = locationService;
-    }
 
     @GetMapping
     public List<LocationDto> getAllLocations(){
@@ -28,7 +26,7 @@ public class LocationController {
 
     @PostMapping
     public Location createLocation(@RequestBody LocationDto locationDto){
-        Location location = LocationMapper.INSTANCE.fromDto(locationDto);
+        final Location location = LocationMapper.INSTANCE.fromDto(locationDto);
         locationService.saveLocation(location);
         return locationService.saveLocation(location);
     }

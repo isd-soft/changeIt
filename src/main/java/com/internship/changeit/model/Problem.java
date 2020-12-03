@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Problem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long problem_id;
+    private Long id;
 
     private String title;
     private String description;
@@ -25,10 +26,12 @@ public class Problem {
     private Integer votesCount;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
+    @Column(name = "created_at")
+    private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated_at;
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -69,4 +72,14 @@ public class Problem {
             usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Vote> votes = new ArrayList<>();
 
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = Date.from(Instant.now());
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = Date.from(Instant.now());
+    }
 }
