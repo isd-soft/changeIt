@@ -1,5 +1,6 @@
 package com.internship.changeit.service.impl;
 
+import com.internship.changeit.config.AppConfigBean;
 import com.internship.changeit.exception.ApplicationException;
 import com.internship.changeit.exception.ExceptionType;
 import com.internship.changeit.model.Role;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final VerificationTokenRepo verificationTokenRepo;
     private final BCryptPasswordEncoder encoder;
+    private final AppConfigBean appConfigBean;
 
     @Override
     @PreAuthorize("hasAnyAuthority('user:crud')")
@@ -89,8 +91,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SimpleMailMessage constructResetPasswordEmail(final String contextPath, final String token, final User user) {
-        final String url = contextPath + "/user/savePassword?id=" + user.getUser_id() + "&token=" + token;
+    public SimpleMailMessage constructResetPasswordEmail(final String token, final User user) {
+        final String url = appConfigBean.getAppUrl() + "/user/savePassword?id=" + user.getUser_id() + "&token=" + token;
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(user.getEmail());
         email.setSubject("Reset Password");

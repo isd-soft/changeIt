@@ -27,7 +27,7 @@ public interface UserService {
 
     VerificationToken getVerificationToken(final String email);
 
-    SimpleMailMessage constructResetPasswordEmail(final String contextPath, final String token, final User user);
+    SimpleMailMessage constructResetPasswordEmail(final String token, final User user);
 
     User updateUserStatus(Long id, UserStatus userStatus);
 

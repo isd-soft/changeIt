@@ -1,6 +1,7 @@
 package com.internship.changeit.controller;
 
 
+import com.internship.changeit.config.AppConfigBean;
 import com.internship.changeit.dto.CommentDto;
 import com.internship.changeit.dto.ProblemDto;
 import com.internship.changeit.dto.ResetPasswordDetailsDTO;
@@ -46,6 +47,7 @@ public class UserController {
     private final JavaMailSender mailSender;
     private final CommentServiceImpl commentService;
     private final ProblemServiceImpl problemService;
+    private final AppConfigBean appConfigBean;
 
 
     @GetMapping
@@ -65,8 +67,9 @@ public class UserController {
         if (userService.isEmailUnique(user.getEmail())) {
             user.setUserStatus(UserStatus.INACTIVE);
             userService.registerNewUser(user);
-            final String appUrl = "http://" + request.getServerName() + ":" + "4200" + request.getContextPath();
-            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appUrl, user));
+
+            // final String appUrl = "http://" + request.getServerName() + ":" + "4200" + request.getContextPath();
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appConfigBean.getAppUrl(), user));
             return user;
         } else throw new ApplicationException(ExceptionType.USER_ALREADY_EXIST);
     }
@@ -90,13 +93,12 @@ public class UserController {
     }
 
     @PostMapping("/resetPassword")
-    public ResponseEntity<?> resetPassword(@RequestParam final String userEmail, final HttpServletRequest request) {
+    public ResponseEntity<?> resetPassword(@RequestParam final String userEmail) {
         final User user = userService.getUserByEmail(userEmail);
         if (user != null) {
             final String token = UUID.randomUUID().toString();
             userService.createVerificationToken(user, token);
-            final String appUrl = "http://" + request.getServerName() + ":" + "4200" + request.getContextPath();
-            final SimpleMailMessage email = userService.constructResetPasswordEmail(appUrl, token, user);
+            final SimpleMailMessage email = userService.constructResetPasswordEmail(token, user);
             mailSender.send(email);
             Map<Object, Object> response = new HashMap<>();
             response.put("Message", "You should receive an Password Reset Email shortly");
