@@ -15,5 +15,6 @@ import javax.validation.constraints.NotNull;
 public class AppConfigBean {
 
     @NotNull
+    @Value("${app.url}")
     private String appUrl;
 }
